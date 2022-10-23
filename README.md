@@ -17,3 +17,8 @@
 #### loadView(), WKWebView, URLRequest, UIToolbar, UIProgressView, key-value observing
 ###### Embed Web Kit and learn about delegation, KVO, classes and UIToolbar
 100 Days of Swift. Project 4: Easy Browser. https://www.hackingwithswift.com/read/4/overview.
+
+## Word Scramble
+#### Closures, method return values, booleans, NSRange
+###### Create an anagram game while learning about closures and booleans
+100 Days of Swift. Project 5: Word Scramble. https://www.hackingwithswift.com/read/5/overview.
