@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="VzW-Sa-lfs">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Flag Table View Controller-->
+        <scene sceneID="zAa-Uq-ZBS">
+            <objects>
+                <tableViewController id="cMd-R7-ay2" customClass="FlagTableViewController" customModule="Flag_Challenge" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="5Tk-oW-X7h">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Flag" textLabel="R0V-Yb-dsl" imageView="l8m-46-lxt" style="IBUITableViewCellStyleDefault" id="bSV-S3-z8Y">
+                                <rect key="frame" x="0.0" y="50" width="390" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bSV-S3-z8Y" id="fYe-Ye-AFl">
+                                    <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="R0V-Yb-dsl">
+                                            <rect key="frame" x="122.33333333333331" y="0.0" width="247.66666666666669" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="estonia.png" id="l8m-46-lxt">
+                                            <rect key="frame" x="20" y="0.0" width="87.333333333333314" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="cMd-R7-ay2" id="rfC-qB-SwB"/>
+                            <outlet property="delegate" destination="cMd-R7-ay2" id="ANs-nF-FRK"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Ru0-1C-4Xb"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p9a-j0-fHS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="761.53846153846155" y="-33.412322274881518"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="Vs9-dP-MqL">
+            <objects>
+                <viewController storyboardIdentifier="Detail" id="odu-nd-xEz" customClass="DetailViewController" customModule="Flag_Challenge" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9Jt-j5-xBN">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bhj-aV-oyZ">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Y0r-e1-BYi"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Bhj-aV-oyZ" firstAttribute="leading" secondItem="Y0r-e1-BYi" secondAttribute="leading" id="25J-G8-gGN"/>
+                            <constraint firstItem="Bhj-aV-oyZ" firstAttribute="centerY" secondItem="9Jt-j5-xBN" secondAttribute="centerY" id="6Vw-3z-LEN"/>
+                            <constraint firstItem="Bhj-aV-oyZ" firstAttribute="top" secondItem="9Jt-j5-xBN" secondAttribute="topMargin" constant="-47" id="9yK-gs-NqR"/>
+                            <constraint firstItem="Bhj-aV-oyZ" firstAttribute="centerX" secondItem="9Jt-j5-xBN" secondAttribute="centerX" id="g6h-Z2-h9A"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="flagImage" destination="Bhj-aV-oyZ" id="gAb-xX-0el"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fvf-tG-jcC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1593.8461538461538" y="-25.592417061611375"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="fEF-m5-XUg">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="VzW-Sa-lfs" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JNT-hL-jqH">
+                        <rect key="frame" x="0.0" y="47" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="cMd-R7-ay2" kind="relationship" relationship="rootViewController" id="ZJN-54-txA"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7sA-Ho-2Rs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-167.69230769230768" y="-33.412322274881518"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="estonia.png" width="600" height="300"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
