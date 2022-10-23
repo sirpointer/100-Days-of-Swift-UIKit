@@ -22,3 +22,8 @@
 #### Closures, method return values, booleans, NSRange
 ###### Create an anagram game while learning about closures and booleans
 100 Days of Swift. Project 5: Word Scramble. https://www.hackingwithswift.com/read/5/overview.
+
+## Auto Layout
+#### NSLayoutConstraint, Visual Format Language, layout anchors
+###### Get to grips with Auto Layout using practical examples and code
+100 Days of Swift. Project 6: Auto Layout. https://www.hackingwithswift.com/read/6/overview.
