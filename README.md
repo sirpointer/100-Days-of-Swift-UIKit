@@ -32,3 +32,8 @@
 #### JSON, Data, UITabBarController
 ###### Make an app to parse Whitehouse petitions using JSON and a tab bar
 100 Days of Swift. Project 7: Whitehouse Petitions. https://www.hackingwithswift.com/read/7/overview.
+
+## 7 Swifty Words
+#### addTarget(), enumerated(), count(), index(of:), joined(), property observers, range operators
+###### Build a word-guessing game and master strings once and for all
+100 Days of Swift. Project 8: 7 Swifty Words. https://www.hackingwithswift.com/read/8/overview.
