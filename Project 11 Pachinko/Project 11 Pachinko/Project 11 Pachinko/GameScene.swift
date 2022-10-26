@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         let background = SKSpriteNode(imageNamed: "background")
@@ -18,17 +18,18 @@ class GameScene: SKScene {
         addChild(background)
         
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        physicsWorld.contactDelegate = self
+        
+        makeSlot(at: CGPoint(x: 128, y: 0), isGood: true)
+        makeSlot(at: CGPoint(x: 384, y: 0), isGood: false)
+        makeSlot(at: CGPoint(x: 640, y: 0), isGood: true)
+        makeSlot(at: CGPoint(x: 896, y: 0), isGood: false)
         
         makeBouncer(at: CGPoint(x: 0, y: 0))
         makeBouncer(at: CGPoint(x: 256, y: 0))
         makeBouncer(at: CGPoint(x: 512, y: 0))
         makeBouncer(at: CGPoint(x: 768, y: 0))
         makeBouncer(at: CGPoint(x: 1024, y: 0))
-        
-        makeSlot(at: CGPoint(x: 128, y: 0), isGood: true)
-        makeSlot(at: CGPoint(x: 384, y: 0), isGood: false)
-        makeSlot(at: CGPoint(x: 640, y: 0), isGood: true)
-        makeSlot(at: CGPoint(x: 896, y: 0), isGood: false)
     }
     
     func makeBouncer(at position: CGPoint) {
@@ -46,7 +47,9 @@ class GameScene: SKScene {
         let ball = SKSpriteNode(imageNamed: "ballRed")
         ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2)
         ball.physicsBody?.restitution = 0.4
+        ball.physicsBody?.contactTestBitMask = physicsBody?.collisionBitMask ?? 0
         ball.position = location
+        ball.name = "ball"
         addChild(ball)
     }
     
@@ -57,10 +60,18 @@ class GameScene: SKScene {
         if isGood {
             slotBase = SKSpriteNode(imageNamed: "slotBaseGood")
             slotGlow = SKSpriteNode(imageNamed: "slotGlowGood")
+            
+            slotBase.name = "good"
         } else {
             slotBase = SKSpriteNode(imageNamed: "slotBaseBad")
             slotGlow = SKSpriteNode(imageNamed: "slotGlowBad")
+            
+            slotBase.name = "bad"
         }
+        
+        slotBase.physicsBody = SKPhysicsBody(rectangleOf: slotBase.size)
+        slotBase.physicsBody?.isDynamic = false
+        
         
         let spinAction = SKAction.rotate(byAngle: .pi, duration: 10)
         let spinForever = SKAction.repeatForever(spinAction)
@@ -70,5 +81,30 @@ class GameScene: SKScene {
         slotGlow.position = position
         addChild(slotBase)
         addChild(slotGlow)
+    }
+    
+    func collision(between ball: SKNode, object: SKNode) {
+        if object.name == "good" {
+            destroy(ball: ball)
+        } else if object.name == "bad" {
+            destroy(ball: ball)
+        }
+    }
+    
+    func destroy(ball: SKNode) {
+        ball.removeFromParent()
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        guard let nodeA = contact.bodyA.node,
+              let nodeB = contact.bodyB.node else {
+            return
+        }
+        
+        if nodeA.name == "ball" {
+            collision(between: nodeA, object: nodeB)
+        } else if nodeB.name == "ball" {
+            collision(between: nodeB, object: nodeA)
+        }
     }
 }
