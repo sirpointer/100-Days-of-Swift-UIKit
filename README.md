@@ -42,3 +42,8 @@
 #### UICollectionView, UIImagePickerController, UUID, classes
 ###### Get started with UICollectionView and the photo library
 100 Days of Swift. Project 10: Names to Faces. https://www.hackingwithswift.com/read/10/overview.
+
+## Pachinko
+#### SpriteKit, physics, blend modes, radians, CGFloat, NSKeyedUnarchiver
+###### Dive into SpriteKit to try your hand at fast 2D games
+100 Days of Swift. Project 11: Pachinko. https://www.hackingwithswift.com/read/11/overview.
