@@ -14,6 +14,7 @@
 		48716A84290950DA009394F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48716A82290950DA009394F3 /* Main.storyboard */; };
 		48716A86290950DB009394F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48716A85290950DB009394F3 /* Assets.xcassets */; };
 		48716A89290950DB009394F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48716A87290950DB009394F3 /* LaunchScreen.storyboard */; };
+		48716A902909683E009394F3 /* FireParticles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 48716A8F2909683E009394F3 /* FireParticles.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		48716A83290950DA009394F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		48716A85290950DB009394F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		48716A88290950DB009394F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		48716A8F2909683E009394F3 /* FireParticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireParticles.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				48716A80290950DA009394F3 /* GameViewController.swift */,
 				48716A82290950DA009394F3 /* Main.storyboard */,
 				48716A85290950DB009394F3 /* Assets.xcassets */,
+				48716A8F2909683E009394F3 /* FireParticles.sks */,
 				48716A87290950DB009394F3 /* LaunchScreen.storyboard */,
 			);
 			path = "Project 11 Pachinko";
@@ -128,6 +131,7 @@
 			files = (
 				48716A84290950DA009394F3 /* Main.storyboard in Resources */,
 				48716A7B290950DA009394F3 /* GameScene.sks in Resources */,
+				48716A902909683E009394F3 /* FireParticles.sks in Resources */,
 				48716A86290950DB009394F3 /* Assets.xcassets in Resources */,
 				48716A89290950DB009394F3 /* LaunchScreen.storyboard in Resources */,
 			);
