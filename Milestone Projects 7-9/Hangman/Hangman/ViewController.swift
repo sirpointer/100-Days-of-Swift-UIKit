@@ -217,7 +217,7 @@ class ViewController: UIViewController {
     }
     
     private func presentOutOfWrongLimit() {
-        let ac = UIAlertController(title: "You're lose!", message: nil, preferredStyle: .alert)
+        let ac = UIAlertController(title: "You're lose!", message: wordForGuess.uppercased(), preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Try again!", style: .default, handler: { [unowned self] _ in
             DispatchQueue.main.async {
                 self.startAgain()
