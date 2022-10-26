@@ -7,26 +7,44 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+extension StringProtocol {
+    subscript(offset: Int) -> Character { self[index(startIndex, offsetBy: offset)] }
+}
+
+
+final class ViewController: UIViewController {
     
-    var lettersButtons: Dictionary<String, UIButton> = [:]
-    var scoreLabel: UILabel!
-    var wrongAnswersLabel: UILabel!
-    var wordLabel: UILabel!
-    var resetButton: UIButton!
+    private var lettersButtons: Dictionary<String, UIButton> = [:]
+    private var scoreLabel: UILabel!
+    private var wrongAnswersLabel: UILabel!
+    private var wordLabel: UILabel!
+    private var resetButton: UIButton!
     
-    var wordForGuess: String = ""
-    let wrongLimit = 7
-    var score: Int = 0 {
+    private var wordForGuess: String = ""
+    private let wrongLimit = 7
+    private var score: Int = 0 {
         didSet {
             scoreLabel.text = getScoreLabelText(score: score)
         }
     }
-    var wrongAnswersCount: Int = 0 {
+    private var wrongAnswersCount: Int = 0 {
         didSet {
             wrongAnswersLabel.text = getWrongAnswersLabelText(wrongAnswersCount)
             wrongAnswersLabel.textColor = getWrongAnswersLabelColor(wrongAnswersCount)
         }
+    }
+    
+    
+    private func getScoreLabelText(score: Int) -> String {
+        "Score: \(score)"
+    }
+    
+    private func getWrongAnswersLabelText(_ value: Int) -> String {
+        "Attempts: \(wrongLimit - value)"
+    }
+    
+    private func getWrongAnswersLabelColor(_ value: Int) -> UIColor {
+        return wrongLimit - value < 3 ? .red : UIColor.label
     }
     
     
@@ -141,12 +159,6 @@ class ViewController: UIViewController {
         }
     }
     
-    private func presentCannotLoadGame() {
-        let ac = UIAlertController(title: "Cannot load game :(", message: nil, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .cancel))
-        present(ac, animated: true)
-    }
-    
     private func startGame(for word: String) {
         wrongAnswersCount = 0
         wordForGuess = word
@@ -157,22 +169,11 @@ class ViewController: UIViewController {
         }
     }
     
-
-    private func getScoreLabelText(score: Int) -> String {
-        "Score: \(score)"
+    private func startAgain() {
+        wrongAnswersCount = 0
+        performSelector(inBackground: #selector(loadWord), with: nil)
     }
     
-    private func getWrongAnswersLabelText(_ value: Int) -> String {
-        "Attempts: \(wrongLimit - value)"
-    }
-    
-    private func getWrongAnswersLabelColor(_ value: Int) -> UIColor {
-        return wrongLimit - value < 3 ? .red : UIColor.label
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
     
     @objc private func letterButtonTapped(_ sender: UIButton) {
         guard let letter = sender.titleLabel?.text?.uppercased(),
@@ -207,6 +208,12 @@ class ViewController: UIViewController {
         }
     }
     
+    @objc private func reloadButtonTapped() {
+        score -= 1
+        startAgain()
+    }
+    
+    
     private func presentWin() {
         let ac = UIAlertController(title: "You won!", message: wordForGuess.uppercased(), preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: { [unowned self] _ in
@@ -227,18 +234,9 @@ class ViewController: UIViewController {
         present(ac, animated: true)
     }
     
-    private func startAgain() {
-        wrongAnswersCount = 0
-        performSelector(inBackground: #selector(loadWord), with: nil)
+    private func presentCannotLoadGame() {
+        let ac = UIAlertController(title: "Cannot load game :(", message: nil, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .cancel))
+        present(ac, animated: true)
     }
-    
-    @objc private func reloadButtonTapped() {
-        score -= 1
-        startAgain()
-    }
-}
-
-
-extension StringProtocol {
-    subscript(offset: Int) -> Character { self[index(startIndex, offsetBy: offset)] }
 }
