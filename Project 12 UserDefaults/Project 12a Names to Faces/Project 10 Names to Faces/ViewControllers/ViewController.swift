@@ -17,6 +17,12 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         super.viewDidLoad()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addOrEditPerson))
+        
+        let defaults = UserDefaults.standard
+        if let peopleData = defaults.object(forKey: "people") as? Data,
+           let people = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(peopleData) as? [Person] {
+            self.people = people
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -67,6 +73,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.reloadData()
             }
+            self?.save()
         }))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
@@ -81,6 +88,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
             guard let newName = ac?.textFields?[0].text else { return }
             person.name = newName
             self?.collectionView.reloadData()
+            self?.save()
         })
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
@@ -92,9 +100,9 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         picker.allowsEditing = true
         picker.delegate = self
         
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            picker.sourceType = .camera
-        }
+//        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+//            picker.sourceType = .camera
+//        }
         
         present(picker, animated: true)
     }
@@ -125,6 +133,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         }
         
         collectionView.reloadData()
+        self.save()
         
         dismiss(animated: true)
     }
@@ -137,6 +146,14 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
+    }
+    
+    
+    func save() {
+        if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: people, requiringSecureCoding: false) {
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey: "people")
+        }
     }
 }
 
