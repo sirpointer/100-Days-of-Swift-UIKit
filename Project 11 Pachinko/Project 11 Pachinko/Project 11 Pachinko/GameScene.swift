@@ -9,11 +9,29 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    let ballNames: [String] = [
+        "ballBlue",
+        "ballCyan",
+        "ballGreen",
+        "ballGrey",
+        "ballPurple",
+        "ballRed",
+        "ballYellow"
+    ]
+    
     var scoreLabel: SKLabelNode!
     
     var score: Int = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
+        }
+    }
+    
+    var ballsRemain = 5 {
+        didSet {
+            if ballsRemain == 0 {
+                removeObstacles()
+            }
         }
     }
     
@@ -82,13 +100,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let box = SKSpriteNode(color: UIColor(red: CGFloat.random(in: 0...1), green: CGFloat.random(in: 0...1), blue: CGFloat.random(in: 0...1), alpha: 1), size: size)
                 box.zRotation = CGFloat.random(in: 0...3)
                 box.position = location
+                box.name = "obstacle"
                 
                 box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
                 box.physicsBody?.isDynamic = false
                 
                 addChild(box)
             } else {
-                let ball = SKSpriteNode(imageNamed: "ballRed")
+                let ball = SKSpriteNode(imageNamed: ballNames.randomElement()!)
                 ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2)
                 ball.physicsBody?.restitution = 0.4
                 ball.physicsBody?.contactTestBitMask = physicsBody?.collisionBitMask ?? 0
@@ -133,9 +152,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if object.name == "good" {
             destroy(ball: ball)
             score += 1
+            ballsRemain += 1
         } else if object.name == "bad" {
             destroy(ball: ball)
             score -= 1
+            ballsRemain -= 1
         }
     }
     
@@ -157,6 +178,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             collision(between: nodeA, object: nodeB)
         } else if nodeB.name == "ball" {
             collision(between: nodeB, object: nodeA)
+        }
+    }
+    
+    func removeObstacles() {
+        var obstacle = childNode(withName: "obstacle")
+        while obstacle != nil {
+            obstacle!.removeFromParent()
+            obstacle = childNode(withName: "obstacle")
         }
     }
 }
