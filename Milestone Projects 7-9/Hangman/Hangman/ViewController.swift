@@ -191,6 +191,7 @@ class ViewController: UIViewController {
                 }
             }
             wordLabel.text = newWord
+            wrongAnswersCount -= 1
             
             if !newWord.contains(where: { String($0) == "?" }) {
                 score += 1
