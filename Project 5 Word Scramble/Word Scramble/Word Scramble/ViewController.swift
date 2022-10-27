@@ -16,7 +16,7 @@ class ViewController: UITableViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(promptForAnswer))
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(startGame))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reloadGame))
         
         if let startWordsUrl = Bundle.main.url(forResource: "start", withExtension: "txt"),
            let startWords = try? String(contentsOf: startWordsUrl) {
@@ -25,13 +25,25 @@ class ViewController: UITableViewController {
             allWords = ["silkworm"]
         }
         
-        startGame()
+        startGame(isNew: true)
     }
 
-    @objc func startGame() {
-        title = allWords.randomElement()
-        usedWords.removeAll(keepingCapacity: true)
+    func startGame(isNew: Bool) {
+        if isNew, let loaded = loadData() {
+            title = loaded.current
+            usedWords = loaded.used
+        } else {
+            let current = allWords.randomElement()
+            title = current
+            usedWords.removeAll(keepingCapacity: true)
+        }
+        
         tableView.reloadData()
+    }
+    
+    @objc func reloadGame() {
+        saveData(current: nil, used: [])
+        startGame(isNew: false)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -75,6 +87,8 @@ class ViewController: UITableViewController {
                     
                     let indexPath = IndexPath(row: 0, section: 0)
                     tableView.insertRows(at: [indexPath], with: .automatic)
+                    
+                    saveData(current: currentWord, used: usedWords)
                     
                     return
                 } else {
@@ -131,5 +145,21 @@ class ViewController: UITableViewController {
         let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
         return misspelledRange.location == NSNotFound
     }
+    
+    
+    func saveData(current: String?, used: [String]) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(current, forKey: "Current word")
+        userDefaults.set(used, forKey: "Used words")
+    }
+    
+    func loadData() -> (current: String, used: [String])? {
+        let userDefaults = UserDefaults.standard
+        if let current = userDefaults.string(forKey: "Current word"),
+           let usedWords = userDefaults.array(forKey: "Used words") as? [String] {
+            return (current, usedWords)
+        }
+        
+        return nil
+    }
 }
-
