@@ -47,3 +47,8 @@
 #### SpriteKit, physics, blend modes, radians, CGFloat, NSKeyedUnarchiver
 ###### Dive into SpriteKit to try your hand at fast 2D games
 100 Days of Swift. Project 11: Pachinko. https://www.hackingwithswift.com/read/11/overview.
+
+## UserDefaults
+#### UserDefaults, NSCoding, Codable, NSKeyedArchiver
+###### Learn how to save user settings and data for later use
+100 Days of Swift. Project 12: UserDefaults. https://www.hackingwithswift.com/read/12/overview.
