@@ -39,6 +39,8 @@ class WhackSlot: SKNode {
         charNode.xScale = 1
         charNode.yScale = 1
         
+        showMudParticles()
+        
         charNode.run(SKAction.moveBy(x: 0, y: 80, duration: hideTime))
         isVisible = true
         isHit = false
@@ -59,8 +61,20 @@ class WhackSlot: SKNode {
     func hide() {
         if !isVisible { return }
         
+        showMudParticles()
+        
         charNode.run(SKAction.moveBy(x: 0, y: -80, duration: 0.05))
         isVisible = false
+    }
+    
+    func showMudParticles() {
+        if let mudParticles = SKEmitterNode(fileNamed: "MudParticles.sks") {
+            let addAction = SKAction.run { self.addChild(mudParticles) }
+            let wait = SKAction.wait(forDuration: Double.random(in: 0.4...1.2))
+            let removeAction = SKAction.run { mudParticles.removeFromParent() }
+            let sequence = SKAction.sequence([addAction, wait, removeAction])
+            self.run(sequence)
+        }
     }
     
     func hit() {

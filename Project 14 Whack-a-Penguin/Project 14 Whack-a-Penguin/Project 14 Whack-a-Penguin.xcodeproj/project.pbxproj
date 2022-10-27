@@ -18,7 +18,8 @@
 		484FCD20290ADF4B005B020F /* whack.caf in Resources */ = {isa = PBXBuildFile; fileRef = 484FCD1E290ADF4B005B020F /* whack.caf */; };
 		484FCD23290AE4C0005B020F /* WhackSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484FCD22290AE4C0005B020F /* WhackSlot.swift */; };
 		489273DB290B267E00322E10 /* HitSmokeEffect.sks in Resources */ = {isa = PBXBuildFile; fileRef = 489273D9290B267E00322E10 /* HitSmokeEffect.sks */; };
-		489273DC290B267E00322E10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 489273DA290B267E00322E10 /* Assets.xcassets */; };
+		489273E2290B2BF800322E10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 489273E0290B2BF800322E10 /* Assets.xcassets */; };
+		489273E4290B2C1E00322E10 /* MudParticles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 489273E3290B2C1E00322E10 /* MudParticles.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,7 +35,8 @@
 		484FCD1E290ADF4B005B020F /* whack.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = whack.caf; sourceTree = "<group>"; };
 		484FCD22290AE4C0005B020F /* WhackSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhackSlot.swift; sourceTree = "<group>"; };
 		489273D9290B267E00322E10 /* HitSmokeEffect.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HitSmokeEffect.sks; sourceTree = "<group>"; };
-		489273DA290B267E00322E10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		489273E0290B2BF800322E10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		489273E3290B2C1E00322E10 /* MudParticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MudParticles.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +104,8 @@
 			isa = PBXGroup;
 			children = (
 				489273D9290B267E00322E10 /* HitSmokeEffect.sks */,
-				489273DA290B267E00322E10 /* Assets.xcassets */,
+				489273E0290B2BF800322E10 /* Assets.xcassets */,
+				489273E3290B2C1E00322E10 /* MudParticles.sks */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -169,10 +172,11 @@
 				484FCD12290ADE8E005B020F /* Main.storyboard in Resources */,
 				489273DB290B267E00322E10 /* HitSmokeEffect.sks in Resources */,
 				484FCD09290ADE8E005B020F /* GameScene.sks in Resources */,
+				489273E4290B2C1E00322E10 /* MudParticles.sks in Resources */,
 				484FCD14290ADE8E005B020F /* Assets.xcassets in Resources */,
 				484FCD17290ADE8E005B020F /* LaunchScreen.storyboard in Resources */,
-				489273DC290B267E00322E10 /* Assets.xcassets in Resources */,
 				484FCD20290ADF4B005B020F /* whack.caf in Resources */,
+				489273E2290B2BF800322E10 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
