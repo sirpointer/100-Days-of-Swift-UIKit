@@ -17,6 +17,15 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         super.viewDidLoad()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addOrEditPerson))
+        
+        let defaults = UserDefaults.standard
+        let decoder = JSONDecoder()
+        if let peopleData = defaults.object(forKey: "people") as? Data,
+           let decodedPeople = try? decoder.decode([Person].self, from: peopleData) {
+            people = decodedPeople
+        } else {
+            print("Failed to load people")
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -65,6 +74,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         ac.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
             self?.people.removeAll(where: { $0 == person })
             DispatchQueue.main.async { [weak self] in
+                self?.save()
                 self?.collectionView.reloadData()
             }
         }))
@@ -80,6 +90,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         ac.addAction(UIAlertAction(title: "OK", style: .default) { [weak self, weak ac] _ in
             guard let newName = ac?.textFields?[0].text else { return }
             person.name = newName
+            self?.save()
             self?.collectionView.reloadData()
         })
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -92,9 +103,9 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         picker.allowsEditing = true
         picker.delegate = self
         
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            picker.sourceType = .camera
-        }
+//        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+//            picker.sourceType = .camera
+//        }
         
         present(picker, animated: true)
     }
@@ -124,6 +135,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
             people.append(person)
         }
         
+        save()
         collectionView.reloadData()
         
         dismiss(animated: true)
@@ -137,6 +149,17 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
+    }
+    
+    
+    func save() {
+        let jsonEncoder = JSONEncoder()
+        if let saveData = try? jsonEncoder.encode(people) {
+            let defaults = UserDefaults.standard
+            defaults.set(saveData, forKey: "people")
+        } else {
+            print("Failed to save people")
+        }
     }
 }
 
