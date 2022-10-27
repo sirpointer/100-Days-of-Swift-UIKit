@@ -93,7 +93,22 @@ class ViewController: UIViewController {
     }
     
     private func showFinalAlert(score: Int) {
-        let ac = UIAlertController(title: "GAME IS OVER", message: "Your score is \(score)", preferredStyle: .alert)
+        let best = UserDefaults.standard.value(forKey: "Best score") as? Int
+        
+        let message: String
+        if let best = best {
+            if score > best {
+                message = "New best score is \(score)! Congradulations!"
+                UserDefaults.standard.set(score, forKey: "Best score")
+            } else {
+                message = "Your score is \(score)\nBest score is \(best)"
+            }
+        } else {
+            message = "Your score is \(score)! It's the best!"
+            UserDefaults.standard.set(score, forKey: "Best score")
+        }
+        
+        let ac = UIAlertController(title: "GAME IS OVER", message: message, preferredStyle: .alert)
         
         ac.addAction(UIAlertAction(title: "Try again!", style: .default, handler: askQuestion))
         
