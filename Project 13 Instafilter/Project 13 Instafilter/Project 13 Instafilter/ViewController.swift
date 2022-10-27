@@ -28,8 +28,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func save(_ sender: UIButton) {
-        guard let uiImage = imageView.image else { return }
+        guard let uiImage = imageView.image else {
+            showThereIsNoImageAlert()
+            return
+        }
         UIImageWriteToSavedPhotosAlbum(uiImage, self, #selector(image), nil)
+    }
+    
+    private func showThereIsNoImageAlert() {
+        let ac = UIAlertController(title: "There is nothing to save!", message: "Select an image", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Ok", style: .default))
+        present(ac, animated: true)
     }
     
     @IBAction func changeFilter(_ sender: UIButton) {
