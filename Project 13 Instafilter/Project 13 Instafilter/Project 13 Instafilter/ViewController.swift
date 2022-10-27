@@ -87,6 +87,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func applyProcessing() {
+        guard let filterOutputImage = currentFilter.outputImage else { return }
+        
         let inputKeys = currentFilter.inputKeys
         
         if inputKeys.contains(kCIInputIntensityKey) {
@@ -102,7 +104,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             currentFilter.setValue(CIVector(x: currentImage.size.width / 2, y: currentImage.size.height / 2), forKey: kCIInputCenterKey)
         }
         
-        if let cgimg = context.createCGImage(currentFilter.outputImage!, from: currentFilter.outputImage!.extent) {
+        if let cgimg = context.createCGImage(filterOutputImage, from: filterOutputImage.extent) {
             let processedImage = UIImage(cgImage: cgimg)
             self.imageView.image = processedImage
         }
