@@ -66,6 +66,14 @@ class WhackSlot: SKNode {
     func hit() {
         isHit = true
         
+        if let smokeEffect = SKEmitterNode(fileNamed: "HitSmokeEffect.sks") {
+            let addAction = SKAction.run { self.addChild(smokeEffect) }
+            let wait = SKAction.wait(forDuration: Double.random(in: 0.9...1.8))
+            let removeAction = SKAction.run { smokeEffect.removeFromParent() }
+            let sequence = SKAction.sequence([addAction, wait, removeAction])
+            self.run(sequence)
+        }
+        
         let delay = SKAction.wait(forDuration: 0.25)
         let hide = SKAction.moveBy(x: 0, y: -80, duration: 0.5)
         let notVisible = SKAction.run { [weak self] in self?.isVisible = false }

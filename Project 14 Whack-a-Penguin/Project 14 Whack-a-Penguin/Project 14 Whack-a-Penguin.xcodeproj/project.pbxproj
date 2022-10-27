@@ -17,6 +17,8 @@
 		484FCD1F290ADF4B005B020F /* whackBad.caf in Resources */ = {isa = PBXBuildFile; fileRef = 484FCD1D290ADF4B005B020F /* whackBad.caf */; };
 		484FCD20290ADF4B005B020F /* whack.caf in Resources */ = {isa = PBXBuildFile; fileRef = 484FCD1E290ADF4B005B020F /* whack.caf */; };
 		484FCD23290AE4C0005B020F /* WhackSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484FCD22290AE4C0005B020F /* WhackSlot.swift */; };
+		489273DB290B267E00322E10 /* HitSmokeEffect.sks in Resources */ = {isa = PBXBuildFile; fileRef = 489273D9290B267E00322E10 /* HitSmokeEffect.sks */; };
+		489273DC290B267E00322E10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 489273DA290B267E00322E10 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 		484FCD1D290ADF4B005B020F /* whackBad.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = whackBad.caf; sourceTree = "<group>"; };
 		484FCD1E290ADF4B005B020F /* whack.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = whack.caf; sourceTree = "<group>"; };
 		484FCD22290AE4C0005B020F /* WhackSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhackSlot.swift; sourceTree = "<group>"; };
+		489273D9290B267E00322E10 /* HitSmokeEffect.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HitSmokeEffect.sks; sourceTree = "<group>"; };
+		489273DA290B267E00322E10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,15 +67,15 @@
 		484FCD05290ADE8E005B020F /* Project 14 Whack-a-Penguin */ = {
 			isa = PBXGroup;
 			children = (
+				489273D7290B260000322E10 /* Game files */,
+				484FCD21290ADF52005B020F /* Sounds */,
+				489273D8290B261E00322E10 /* Effects */,
 				484FCD06290ADE8E005B020F /* AppDelegate.swift */,
 				484FCD08290ADE8E005B020F /* GameScene.sks */,
-				484FCD0C290ADE8E005B020F /* GameScene.swift */,
 				484FCD0E290ADE8E005B020F /* GameViewController.swift */,
-				484FCD22290AE4C0005B020F /* WhackSlot.swift */,
 				484FCD10290ADE8E005B020F /* Main.storyboard */,
 				484FCD13290ADE8E005B020F /* Assets.xcassets */,
 				484FCD15290ADE8E005B020F /* LaunchScreen.storyboard */,
-				484FCD21290ADF52005B020F /* Sounds */,
 			);
 			path = "Project 14 Whack-a-Penguin";
 			sourceTree = "<group>";
@@ -83,6 +87,24 @@
 				484FCD1D290ADF4B005B020F /* whackBad.caf */,
 			);
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		489273D7290B260000322E10 /* Game files */ = {
+			isa = PBXGroup;
+			children = (
+				484FCD0C290ADE8E005B020F /* GameScene.swift */,
+				484FCD22290AE4C0005B020F /* WhackSlot.swift */,
+			);
+			path = "Game files";
+			sourceTree = "<group>";
+		};
+		489273D8290B261E00322E10 /* Effects */ = {
+			isa = PBXGroup;
+			children = (
+				489273D9290B267E00322E10 /* HitSmokeEffect.sks */,
+				489273DA290B267E00322E10 /* Assets.xcassets */,
+			);
+			path = Effects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,9 +167,11 @@
 			files = (
 				484FCD1F290ADF4B005B020F /* whackBad.caf in Resources */,
 				484FCD12290ADE8E005B020F /* Main.storyboard in Resources */,
+				489273DB290B267E00322E10 /* HitSmokeEffect.sks in Resources */,
 				484FCD09290ADE8E005B020F /* GameScene.sks in Resources */,
 				484FCD14290ADE8E005B020F /* Assets.xcassets in Resources */,
 				484FCD17290ADE8E005B020F /* LaunchScreen.storyboard in Resources */,
+				489273DC290B267E00322E10 /* Assets.xcassets in Resources */,
 				484FCD20290ADF4B005B020F /* whack.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
