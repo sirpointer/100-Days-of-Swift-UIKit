@@ -9,9 +9,34 @@ import UIKit
 
 class DetailViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
+    var currentShownCountLabel: UILabel!
+    
+    
     var selectedImage: String?
     var pictureIndex: Int?
     var allPicturesCount: Int?
+    
+    var currentShownCount: Int? {
+        didSet {
+            if let currentShownCount = currentShownCount {
+                currentShownCountLabel.text = String(currentShownCount)
+            }
+        }
+    }
+    
+    override func loadView() {
+        super.loadView()
+        
+        currentShownCountLabel = UILabel()
+        currentShownCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        currentShownCountLabel.layer.zPosition = imageView.layer.zPosition + 1
+        view.addSubview(currentShownCountLabel)
+        
+        NSLayoutConstraint.activate([
+            currentShownCountLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            currentShownCountLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +51,16 @@ class DetailViewController: UIViewController {
         if let imageToLoad = selectedImage {
             imageView.image = UIImage(named: imageToLoad)
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard let selectedImage = selectedImage else { return }
+        let currentShownCount = UserDefaults.standard.integer(forKey: selectedImage) + 1
+        UserDefaults.standard.set(currentShownCount, forKey: selectedImage)
+        
+        self.currentShownCount = currentShownCount
     }
     
     override func viewWillAppear(_ animated: Bool) {
