@@ -82,12 +82,22 @@ class GameScene: SKScene {
     func createEnemy() {
         numRounds += 1
         
-        if numRounds >= 30 {
+        if numRounds >= 2 {
             slots.forEach { $0.hide() }
             let gameOver = SKSpriteNode(imageNamed: "gameOver")
             gameOver.position = CGPoint(x: 512, y: 384)
             gameOver.zPosition = 1
             addChild(gameOver)
+            
+            let finalScoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+            finalScoreLabel.zPosition = 1
+            finalScoreLabel.fontSize = 54
+            finalScoreLabel.text = "Your score is \(score)!"
+            finalScoreLabel.position = CGPoint(x: 512, y: 350)
+            finalScoreLabel.horizontalAlignmentMode = .center
+            finalScoreLabel.verticalAlignmentMode = .top
+            addChild(finalScoreLabel)
+            
             return
         }
         
