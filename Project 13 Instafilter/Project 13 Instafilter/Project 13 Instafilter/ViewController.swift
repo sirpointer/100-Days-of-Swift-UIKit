@@ -11,11 +11,16 @@ import CoreImage
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet var intensitySlider: UISlider!
     @IBOutlet var imageView: UIImageView!
+    @IBOutlet var changeFilterButton: UIButton!
     
     var currentImage: UIImage!
     
     var context: CIContext!
-    var currentFilter: CIFilter!
+    var currentFilter: CIFilter! {
+        didSet {
+            changeFilterButton.setTitle(currentFilter.name, for: .normal)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
