@@ -26,6 +26,20 @@ class ViewController: UIViewController, MKMapViewDelegate {
             london, oslo, paris, rome, washington
         ])
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(selectMapType))
+    }
+    
+    @objc func selectMapType() {
+        let ac = UIAlertController(title: "Chose map type", message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "Standard", style: .default, handler: { [unowned self] _ in mapView.mapType = .standard }))
+        ac.addAction(UIAlertAction(title: "Hybrid", style: .default, handler: { [unowned self] _ in mapView.mapType = .hybrid }))
+        ac.addAction(UIAlertAction(title: "Hybrid Flyover", style: .default, handler: { [unowned self] _ in mapView.mapType = .hybridFlyover }))
+        ac.addAction(UIAlertAction(title: "Muted Standard", style: .default, handler: { [unowned self] _ in mapView.mapType = .mutedStandard }))
+        ac.addAction(UIAlertAction(title: "Satellite", style: .default, handler: { [unowned self] _ in mapView.mapType = .satellite }))
+        ac.addAction(UIAlertAction(title: "Satellite Flyover", style: .default, handler: { [unowned self] _ in mapView.mapType = .satelliteFlyover }))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        present(ac, animated: true)
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -33,11 +47,13 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         let identifier = "Capital"
         
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
         
         if annotationView == nil {
             annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.canShowCallout = true
+            annotationView?.markerTintColor = .purple
+            annotationView?.glyphTintColor = .yellow
             
             let btn = UIButton(type: .detailDisclosure)
             annotationView?.rightCalloutAccessoryView = btn
