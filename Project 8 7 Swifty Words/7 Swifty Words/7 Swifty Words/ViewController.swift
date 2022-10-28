@@ -139,7 +139,17 @@ class ViewController: UIViewController {
         guard let buttonTitle = sender.titleLabel?.text else { return }
         currentAnswer.text = currentAnswer.text?.appending(buttonTitle)
         activatedButtons.append(sender)
-        sender.isHidden = true
+        hideButtonWithAnimation(sender, true)
+    }
+    
+    func hideButtonWithAnimation(_ button: UIButton, _ isHidden: Bool) {
+        UIView.animate(withDuration: 0.4, delay: 0.3, animations: {
+            if isHidden {
+                button.alpha = 0.0
+            } else {
+                button.alpha = 1.0
+            }
+        })
     }
     
     @objc func submitTapped(_ sender: UIButton) {
@@ -176,7 +186,7 @@ class ViewController: UIViewController {
             score -= 1
             
             currentAnswer.text = ""
-            activatedButtons.forEach { $0.isHidden = false }
+            activatedButtons.forEach { hideButtonWithAnimation($0, false) }
             activatedButtons.removeAll()
             
             let ac = UIAlertController(title: "You are wrong!", message: "That's the wrong word. Try another word.", preferredStyle: .alert)
@@ -191,7 +201,7 @@ class ViewController: UIViewController {
         solutions.removeAll(keepingCapacity: true)
         self.performSelector(inBackground: #selector(loadLevel), with: nil)
         
-        letterButtons.forEach { $0.isHidden = false }
+        letterButtons.forEach { hideButtonWithAnimation($0, false) }
     }
     
     func tryAgain(action: UIAlertAction) {
@@ -199,12 +209,12 @@ class ViewController: UIViewController {
         solutions.removeAll()
         self.performSelector(inBackground: #selector(loadLevel), with: nil)
         
-        letterButtons.forEach { $0.isHidden = false }
+        letterButtons.forEach { hideButtonWithAnimation($0, false) }
     }
     
     @objc func clearTapped(_ sender: UIButton) {
         currentAnswer.text = ""
-        activatedButtons.forEach { $0.isHidden = false }
+        activatedButtons.forEach { hideButtonWithAnimation($0, false) }
         activatedButtons.removeAll()
     }
     
