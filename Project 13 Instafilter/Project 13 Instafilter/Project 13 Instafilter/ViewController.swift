@@ -22,11 +22,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    var pickImageBarButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Instafilter"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
+        pickImageBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(importPicture))
+        navigationItem.rightBarButtonItem = pickImageBarButton
         
         context = CIContext()
         currentFilter = CIFilter(name: "CISepiaTone")
@@ -79,6 +82,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
         dismiss(animated: true)
+        
+        let animationTimeInterval = 0.8
+        
+        UIView.animate(withDuration: animationTimeInterval, delay: 0, animations: {
+            self.imageView.alpha = 0
+            self.pickImageBarButton.isEnabled = false
+        })
+        
+        UIView.animate(withDuration: animationTimeInterval, delay: animationTimeInterval, animations: {
+            self.imageView.alpha = 1
+            self.pickImageBarButton.isEnabled = true
+        })
+        
         currentImage = image
         
         let beginImage = CIImage(image: currentImage)
