@@ -62,3 +62,8 @@
 #### SKCropNode, SKTexture, asyncAfter()
 ###### Build a game using SKCropNode and a sprinkling of Grand Central Dispatch
 100 Days of Swift. Project 14: Whack-a-Penguin. https://www.hackingwithswift.com/read/14/overview.
+
+## Animation
+#### Core Animation, CGAffineTransform
+###### Bring your interfaces to life with animation, and meet switch/case at the same time
+100 Days of Swift. Project 15: Animation. https://www.hackingwithswift.com/read/15/overview.
