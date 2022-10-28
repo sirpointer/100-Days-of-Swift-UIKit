@@ -52,3 +52,13 @@
 #### UserDefaults, NSCoding, Codable, NSKeyedArchiver
 ###### Learn how to save user settings and data for later use
 100 Days of Swift. Project 12: UserDefaults. https://www.hackingwithswift.com/read/12/overview.
+
+## Instafilter
+#### Core Image, UISlider, writing to the photo library
+###### Make a photo manipulation program using Core Image filters and a UISlider
+100 Days of Swift. Project 13: Instafilter. https://www.hackingwithswift.com/read/13/overview.
+
+## Whack-a-Penguin
+#### SKCropNode, SKTexture, asyncAfter()
+###### Build a game using SKCropNode and a sprinkling of Grand Central Dispatch
+100 Days of Swift. Project 14: Whack-a-Penguin. https://www.hackingwithswift.com/read/14/overview.
