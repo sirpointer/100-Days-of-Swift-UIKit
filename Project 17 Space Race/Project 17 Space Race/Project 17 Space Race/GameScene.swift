@@ -12,6 +12,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player: SKSpriteNode!
     var scoreLabel: SKLabelNode!
     
+    var possibleEnemies = ["ball", "hammer", "tv"]
+    var gameTimer: Timer?
+    var isGameOver = false
+    
     var score: Int = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
@@ -21,10 +25,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         backgroundColor = .black
         
-        print(frame)
-        print(frame.height)
-        print(frame.width)
-        print(frame.width / 2)
         starField = SKEmitterNode(fileNamed: "starfield")!
         starField.position = CGPoint(x: frame.width, y: frame.height / 2)
         starField.advanceSimulationTime(10)
@@ -45,9 +45,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
+        
+        gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
     }
     
     override func update(_ currentTime: TimeInterval) {
+        for node in children {
+            if node.position.x < -300 {
+                node.removeFromParent()
+            }
+        }
         
+        if !isGameOver {
+            score += 1
+        }
+    }
+    
+    @objc func createEnemy() {
+        guard let enemy = possibleEnemies.randomElement() else { return }
+        
+        let sprite = SKSpriteNode(imageNamed: enemy)
+        let x = frame.width * 1.2
+        let yRange: ClosedRange<Double> = (frame.height * 0.05)...(frame.height * 0.95)
+        sprite.position = CGPoint(x: x, y: Double.random(in: yRange))
+        addChild(sprite)
+        sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size)
+        sprite.physicsBody?.categoryBitMask = 1
+        sprite.physicsBody?.velocity = CGVector(dx: -500, dy: 0)
+        sprite.physicsBody?.angularVelocity = 5
+        sprite.physicsBody?.linearDamping = 0
+        sprite.physicsBody?.angularDamping = 0
     }
 }
