@@ -67,3 +67,8 @@
 #### Core Animation, CGAffineTransform
 ###### Bring your interfaces to life with animation, and meet switch/case at the same time
 100 Days of Swift. Project 15: Animation. https://www.hackingwithswift.com/read/15/overview.
+
+## Capital Cities
+#### MKMapView, MKAnnotation, MKPinAnnotationView, CLLocationCoordinate2D
+###### Teach users about geography while you learn about MKMapView and annotations
+100 Days of Swift. Project 16: Capital Cities. https://www.hackingwithswift.com/read/16/overview.
