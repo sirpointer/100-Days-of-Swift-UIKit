@@ -40,6 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
         scoreLabel.position = CGPoint(x: 16, y: 16)
         scoreLabel.horizontalAlignmentMode = .left
+        scoreLabel.zPosition = 100
         score = 0
         addChild(scoreLabel)
         
@@ -47,6 +48,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        var location = touch.location(in: self)
+        
+        if location.y < 100 {
+            location.y = 100
+        } else if location.y > 668 {
+            location.y = 668
+        }
+        
+        player.position = location
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let explosion = SKEmitterNode(fileNamed: "explosion")!
+        explosion.position = player.position
+        addChild(explosion)
+        
+        player.removeFromParent()
+        isGameOver = true
     }
     
     override func update(_ currentTime: TimeInterval) {
