@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		481C885C290D9754009B82BA /* WikiCapitalWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C885B290D9754009B82BA /* WikiCapitalWebViewController.swift */; };
 		48FB3D45290C4F5700BE2C4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FB3D44290C4F5700BE2C4F /* AppDelegate.swift */; };
 		48FB3D47290C4F5700BE2C4F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FB3D46290C4F5700BE2C4F /* SceneDelegate.swift */; };
 		48FB3D49290C4F5700BE2C4F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FB3D48290C4F5700BE2C4F /* ViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		481C885B290D9754009B82BA /* WikiCapitalWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiCapitalWebViewController.swift; sourceTree = "<group>"; };
 		48FB3D41290C4F5700BE2C4F /* Project 16 Capital Cities.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project 16 Capital Cities.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		48FB3D44290C4F5700BE2C4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48FB3D46290C4F5700BE2C4F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				48FB3D44290C4F5700BE2C4F /* AppDelegate.swift */,
 				48FB3D46290C4F5700BE2C4F /* SceneDelegate.swift */,
 				48FB3D48290C4F5700BE2C4F /* ViewController.swift */,
+				481C885B290D9754009B82BA /* WikiCapitalWebViewController.swift */,
 				48FB3D58290C50B300BE2C4F /* Capital.swift */,
 				48FB3D4A290C4F5700BE2C4F /* Main.storyboard */,
 				48FB3D4D290C4F5800BE2C4F /* Assets.xcassets */,
@@ -144,6 +147,7 @@
 				48FB3D49290C4F5700BE2C4F /* ViewController.swift in Sources */,
 				48FB3D45290C4F5700BE2C4F /* AppDelegate.swift in Sources */,
 				48FB3D59290C50B300BE2C4F /* Capital.swift in Sources */,
+				481C885C290D9754009B82BA /* WikiCapitalWebViewController.swift in Sources */,
 				48FB3D47290C4F5700BE2C4F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
