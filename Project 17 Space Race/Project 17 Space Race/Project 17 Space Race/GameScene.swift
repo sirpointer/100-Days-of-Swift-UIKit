@@ -87,6 +87,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         player.removeFromParent()
         isGameOver = true
+        
+        gameTimer?.invalidate()
     }
     
     override func update(_ currentTime: TimeInterval) {
