@@ -72,3 +72,8 @@
 #### MKMapView, MKAnnotation, MKPinAnnotationView, CLLocationCoordinate2D
 ###### Teach users about geography while you learn about MKMapView and annotations
 100 Days of Swift. Project 16: Capital Cities. https://www.hackingwithswift.com/read/16/overview.
+
+## Space Race
+#### Per-pixel collision detection, advancing particle systems, linear and angular damping
+###### Dodge space debris while you learn about per-pixel collision detection
+100 Days of Swift. Project 17: Space Race. https://www.hackingwithswift.com/read/17/overview.
