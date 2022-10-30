@@ -12,6 +12,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player: SKSpriteNode!
     var scoreLabel: SKLabelNode!
     
+    var playerCanMove = false
+    
     var possibleEnemies = ["ball", "hammer", "tv"]
     var gameTimer: Timer?
     var isGameOver = false
@@ -35,6 +37,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.position = CGPoint(x: frame.width * 0.1, y: frame.height / 2)
         player.physicsBody = SKPhysicsBody(texture: player.texture!, size: player.size)
         player.physicsBody?.contactTestBitMask = 1
+        player.name = "player"
         addChild(player)
         
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
@@ -47,21 +50,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
         
-        gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+        gameTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
     }
     
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
+        guard let touch = touches.first, playerCanMove else { return }
         var location = touch.location(in: self)
         
-        if location.y < 100 {
-            location.y = 100
-        } else if location.y > 668 {
-            location.y = 668
+        if location.y < frame.height * 0.1 {
+            location.y = frame.height * 0.1
+        } else if location.y > frame.height * 0.9 {
+            location.y = frame.height * 0.9
         }
         
         player.position = location
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        var location = touch.location(in: self)
+        playerCanMove = nodes(at: location).first(where: { $0.name == "player" }) != nil
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        playerCanMove = false
+    }
+    
     
     func didBegin(_ contact: SKPhysicsContact) {
         let explosion = SKEmitterNode(fileNamed: "explosion")!
