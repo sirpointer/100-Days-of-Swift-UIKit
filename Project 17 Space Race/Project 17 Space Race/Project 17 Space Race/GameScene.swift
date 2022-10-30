@@ -14,6 +14,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var playerCanMove = false
     
+    var enemiesCount = 0
+    
     var possibleEnemies = ["ball", "hammer", "tv"]
     var gameTimer: Timer?
     var isGameOver = false
@@ -50,7 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
         
-        gameTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+        gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
     }
     
     
@@ -69,7 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
-        var location = touch.location(in: self)
+        let location = touch.location(in: self)
         playerCanMove = nodes(at: location).first(where: { $0.name == "player" }) != nil
     }
     
@@ -113,5 +115,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sprite.physicsBody?.angularVelocity = 5
         sprite.physicsBody?.linearDamping = 0
         sprite.physicsBody?.angularDamping = 0
+        
+        enemiesCount += 1
+        
+        if enemiesCount % 20 == 0 {
+            var timeInterval = gameTimer!.timeInterval - 1
+            timeInterval = timeInterval < 0.2 ? 0.2 : timeInterval
+            
+            gameTimer?.invalidate()
+            gameTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+        }
     }
 }
