@@ -20,6 +20,7 @@ class ActionViewController: UIViewController {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "applescript"), style: .plain, target: self, action: #selector(showJSListAlert))
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -43,12 +44,45 @@ class ActionViewController: UIViewController {
     }
 
     @IBAction func done() {
+        executeScript(scriptText: script.text ?? "")
+    }
+    
+    @objc private func showJSListAlert() {
+        let ac = UIAlertController(title: "Choose script", message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "Show document title", style: .default, handler: { [weak self] _ in
+            self?.showDocumentTitleAlert()
+        }))
+        ac.addAction(UIAlertAction(title: "Show page info", style: .default, handler: { [weak self] _ in
+            self?.showDocumentInfoAlert()
+        }))
+        ac.addAction(UIAlertAction(title: "Show developer info", style: .default, handler: { [weak self] _ in
+            self?.showDeveloperInfo()
+        }))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        present(ac, animated: true)
+    }
+    
+    func executeScript(scriptText: String) {
         let item = NSExtensionItem()
-        let argument: NSDictionary = ["customJavaScript": script.text ?? ""]
+        let argument: NSDictionary = ["customJavaScript": scriptText]
         let webDictionary: NSDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: argument]
         let customJS = NSItemProvider(item: webDictionary, typeIdentifier: UTType.propertyList.identifier)
         item.attachments = [customJS]
         extensionContext?.completeRequest(returningItems: [item])
+    }
+    
+    private func showDocumentTitleAlert() {
+        executeScript(scriptText: "alert(document.title)")
+    }
+    
+    private func showDocumentInfoAlert() {
+        let alertText = "\(pageTitle). \(pageURL)"
+        executeScript(scriptText: "alert('\(alertText)')")
+    }
+    
+    private func showDeveloperInfo() {
+        executeScript(scriptText: "alert('Nikita Novikov:  https://github.com/sirpointer')")
     }
     
     
