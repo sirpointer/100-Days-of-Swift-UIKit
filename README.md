@@ -77,3 +77,8 @@
 #### Per-pixel collision detection, advancing particle systems, linear and angular damping
 ###### Dodge space debris while you learn about per-pixel collision detection
 100 Days of Swift. Project 17: Space Race. https://www.hackingwithswift.com/read/17/overview.
+
+## Debugging
+#### print(), assert(), breakpoints, and view debugging
+###### Everyone hits problems sooner or later, so learning to find and fix them is an important skill
+100 Days of Swift. Project 18: Debugging. https://www.hackingwithswift.com/read/18/overview.
