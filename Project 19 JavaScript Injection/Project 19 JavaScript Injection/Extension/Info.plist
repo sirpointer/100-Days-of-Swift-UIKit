@@ -6,7 +6,7 @@
 	<dict>
 		<key>NSExtensionAttributes</key>
 		<dict>
-			<key>NSExtensionJavaScritpPreprocessingFile</key>
+			<key>NSExtensionJavaScriptPreprocessingFile</key>
 			<string>Action</string>
 			<key>NSExtensionActivationRule</key>
 			<dict>
