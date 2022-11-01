@@ -37,10 +37,16 @@ class ActionViewController: UIViewController {
                     
                     DispatchQueue.main.async {
                         self?.title = self?.pageTitle
+                        self?.script.text = self?.load() ?? ""
                     }
                 }
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        save()
     }
 
     @IBAction func done() {
@@ -102,5 +108,29 @@ class ActionViewController: UIViewController {
         
         let selectedRange = script.selectedRange
         script.scrollRangeToVisible(selectedRange)
+    }
+    
+    
+    private func save() {
+        guard let scriptText = script.text else { return }
+        let trimmedScript = scriptText.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard !trimmedScript.isEmpty,
+              let urlComponents = URLComponents(string: pageURL),
+              let host = urlComponents.host else {
+            return
+        }
+        
+        let defaults = UserDefaults.standard
+        defaults.set(trimmedScript, forKey: host)
+    }
+    
+    private func load() -> String? {
+        guard let urlComponents = URLComponents(string: pageURL),
+              let host = urlComponents.host else {
+            return nil
+        }
+        
+        return UserDefaults.standard.string(forKey: host)
     }
 }
