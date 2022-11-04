@@ -12,6 +12,8 @@ import LocalAuthentication
 class ViewController: UIViewController {
     @IBOutlet var secret: UITextView!
     
+    private var doneBarButtonItem: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,6 +23,10 @@ class ViewController: UIViewController {
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(saveSecretMessage), name: UIApplication.willResignActiveNotification, object: nil)
+        
+        doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveSecretMessage))
+        navigationItem.rightBarButtonItem = doneBarButtonItem
+        doneBarButtonItem.isHidden = true
     }
     
     @objc func adjustForKeyboard(notification: Notification) {
@@ -66,6 +72,7 @@ class ViewController: UIViewController {
     
     func unlockSecretMessage() {
         secret.isHidden = false
+        doneBarButtonItem.isHidden = false
         title = "Secret staff!"
         
         secret.text = KeychainWrapper.standard.string(forKey: "SecretMessage") ?? ""
@@ -77,6 +84,7 @@ class ViewController: UIViewController {
         KeychainWrapper.standard.set(secret.text, forKey: "SecretMessage")
         secret.resignFirstResponder()
         secret.isHidden = true
+        doneBarButtonItem.isHidden = true
         title = "Nothing to see here"
     }
 }
