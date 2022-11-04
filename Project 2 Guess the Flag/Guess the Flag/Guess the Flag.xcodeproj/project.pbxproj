@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48E0B00C291538CB002D6202 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E0B00B291538CB002D6202 /* Notifications.swift */; };
 		48FFB50828E8D22C0039B2CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FFB50728E8D22C0039B2CB /* AppDelegate.swift */; };
 		48FFB50A28E8D22C0039B2CB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FFB50928E8D22C0039B2CB /* SceneDelegate.swift */; };
 		48FFB50C28E8D22C0039B2CB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FFB50B28E8D22C0039B2CB /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		48E0B00B291538CB002D6202 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		48FFB50428E8D22C0039B2CB /* Guess the Flag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Guess the Flag.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		48FFB50728E8D22C0039B2CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48FFB50928E8D22C0039B2CB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				48FFB50728E8D22C0039B2CB /* AppDelegate.swift */,
 				48FFB50928E8D22C0039B2CB /* SceneDelegate.swift */,
 				48FFB50B28E8D22C0039B2CB /* ViewController.swift */,
+				48E0B00B291538CB002D6202 /* Notifications.swift */,
 				48FFB50D28E8D22C0039B2CB /* Main.storyboard */,
 				48FFB51028E8D22D0039B2CB /* Assets.xcassets */,
 				48FFB51228E8D22D0039B2CB /* LaunchScreen.storyboard */,
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48E0B00C291538CB002D6202 /* Notifications.swift in Sources */,
 				48FFB50C28E8D22C0039B2CB /* ViewController.swift in Sources */,
 				48FFB50828E8D22C0039B2CB /* AppDelegate.swift in Sources */,
 				48FFB50A28E8D22C0039B2CB /* SceneDelegate.swift in Sources */,

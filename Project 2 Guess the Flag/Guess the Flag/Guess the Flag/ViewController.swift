@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class ViewController: UIViewController {
     
@@ -30,8 +31,11 @@ class ViewController: UIViewController {
         createNavigationBarButton()
         
         askQuestion()
+        
+        DispatchQueue.main.async {
+            Notifications.registerNotifications()
+        }
     }
-    
     private func createNavigationBarButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Score", style: .plain, target: self, action: #selector(showScore))
     }
@@ -135,5 +139,7 @@ class ViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
         present(alert, animated: true)
     }
+    
+    
+    
 }
-
