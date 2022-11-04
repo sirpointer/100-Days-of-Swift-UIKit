@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     
     private var doneBarButtonItem: UIBarButtonItem!
     
+    private let authenticationFailedMessage = "You could not be verified; Please try again."
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,7 +47,7 @@ class ViewController: UIViewController {
         let selectedRange = secret.selectedRange
         secret.scrollRangeToVisible(selectedRange)
     }
-
+    
     @IBAction func authenticateTapped(_ sender: Any) {
         let context = LAContext()
         var error: NSError?
@@ -57,17 +59,74 @@ class ViewController: UIViewController {
                     if success {
                         self?.unlockSecretMessage()
                     } else {
-                        let ac = UIAlertController(title: "Authentication failed", message: "You could not be verified; Please try again.", preferredStyle: .alert)
+                        let ac = UIAlertController(title: "Authentication failed", message: self?.authenticationFailedMessage, preferredStyle: .alert)
                         ac.addAction(UIAlertAction(title: "Ok", style: .default))
                         self?.present(ac, animated: true)
                     }
                 }
             }
         } else {
-            let ac = UIAlertController(title: "Biometry unavailable", message: "Your device is not configured for biometric authentication.", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Ok", style: .default))
-            present(ac, animated: true)
+            usePassword()
         }
+    }
+    
+    func usePassword() {
+        let loadedPassword = loadPassword()
+        
+        if let loadedPassword = loadedPassword {
+            unlockWithPassword(loadedPassword)
+        } else {
+            setNewPassword()
+        }
+    }
+    
+    func setNewPassword() {
+        let ac = UIAlertController(title: "Set a password to keep your data safety", message: nil, preferredStyle: .alert)
+        ac.addTextField(configurationHandler: { textField in
+            textField.isSecureTextEntry = true
+        })
+        let action = UIAlertAction(title: "Ok", style: .default) { [weak self, weak ac] alertAction in
+            let text = ac?.textFields?[0].text ?? ""
+            self?.savePassword(text)
+            self?.unlockSecretMessage()
+        }
+        ac.addAction(action)
+        present(ac, animated: true)
+    }
+    
+    func unlockWithPassword(_ loadedPassword: String) {
+        let ac = UIAlertController(title: "Identify yourself!", message: "Enter the password", preferredStyle: .alert)
+        ac.addTextField(configurationHandler: { textField in
+            textField.isSecureTextEntry = true
+        })
+        let action = UIAlertAction(title: "Confirm", style: .default) { [weak self, weak ac] alertAction in
+            guard let text = ac?.textFields?[0].text,
+                  text == loadedPassword else {
+                      DispatchQueue.main.async {
+                          self?.incorrectPasswordAlert()
+                      }
+                      return
+                  }
+            
+            self?.unlockSecretMessage()
+        }
+        ac.addAction(action)
+        present(ac, animated: true)
+    }
+    
+    func incorrectPasswordAlert() {
+        let ac = UIAlertController(title: "Incorrect password", message: authenticationFailedMessage, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Ok", style: .default))
+        present(ac, animated: true)
+    }
+    
+    
+    func loadPassword() -> String? {
+        KeychainWrapper.standard.string(forKey: "Password")
+    }
+    
+    func savePassword(_ password: String) {
+        KeychainWrapper.standard.set(password, forKey: "Password")
     }
     
     func unlockSecretMessage() {
