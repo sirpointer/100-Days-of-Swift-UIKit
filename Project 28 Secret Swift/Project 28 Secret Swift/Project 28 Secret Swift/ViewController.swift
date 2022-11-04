@@ -6,17 +6,20 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 class ViewController: UIViewController {
     @IBOutlet var secret: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        title = "Nothing to see here"
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(saveSecretMessage), name: UIApplication.willResignActiveNotification, object: nil)
     }
     
     @objc func adjustForKeyboard(notification: Notification) {
@@ -37,7 +40,23 @@ class ViewController: UIViewController {
     }
 
     @IBAction func authenticateTapped(_ sender: Any) {
+        unlockSecretMessage()
     }
     
+    func unlockSecretMessage() {
+        secret.isHidden = false
+        title = "Secret staff!"
+        
+        secret.text = KeychainWrapper.standard.string(forKey: "SecretMessage") ?? ""
+    }
+    
+    @objc func saveSecretMessage() {
+        guard !secret.isHidden else { return }
+        
+        KeychainWrapper.standard.set(secret.text, forKey: "SecretMessage")
+        secret.resignFirstResponder()
+        secret.isHidden = true
+        title = "Nothing to see here"
+    }
 }
 
