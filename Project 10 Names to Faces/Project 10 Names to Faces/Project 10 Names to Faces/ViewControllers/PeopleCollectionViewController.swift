@@ -14,6 +14,14 @@ class PeopleCollectionViewController: UICollectionViewController, UINavigationCo
     var peopleModelPeopleUpdatedPublisherCancellable: AnyCancellable?
     var peopleModelImageSavedPublisherCancellable: AnyCancellable?
     
+    private var isUnlocked = true {
+        didSet {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
     private var editableCell: PersonCell?
     
     override func viewDidLoad() {
@@ -46,12 +54,13 @@ class PeopleCollectionViewController: UICollectionViewController, UINavigationCo
     }
     
     // Image for a person was saved
-    private func imageSaved(_ imageName: String) {
+    private func imageSaved(_ imagePath: String) {
+        guard let imageName = imagePath.components(separatedBy: "/").last else { return }
         for i in 0..<peopleModel.people.count {
-            if let personCell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "Person", for: IndexPath(item: i, section: 0)) as? PersonCell {
-                if personCell.person?.image == imageName {
-                    personCell.imageView.image = UIImage(named: imageName)
-                }
+            let indexPath = IndexPath(item: i, section: 0)
+            if let personCell = collectionView.cellForItem(at: indexPath) as? PersonCell,
+               personCell.person?.image == imageName {
+                personCell.imageView.image = getUIImageForPerson(named: imagePath)
             }
         }
     }
@@ -68,12 +77,14 @@ class PeopleCollectionViewController: UICollectionViewController, UINavigationCo
     
     // An image in the cell was tapped
     @objc func didImageViewTappedCell(cell: PersonCell) {
+        guard isUnlocked else { return }
         editableCell = cell
         addOrEditPerson()
     }
     
     // A cell was tapped
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard isUnlocked else { return }
         let person = peopleModel.people[indexPath.item]
         
         let ac = UIAlertController(title: "What do you want to do with \(person.name)?", message: nil, preferredStyle: .actionSheet)
@@ -117,6 +128,15 @@ class PeopleCollectionViewController: UICollectionViewController, UINavigationCo
         
         present(picker, animated: true)
     }
+    
+    
+    private func getUIImageForPerson(named imageName: String) -> UIImage {
+        if isUnlocked {
+            return UIImage(named: imageName) ?? UIImage()
+        } else {
+            return UIImage()
+        }
+    }
 }
 
 
@@ -137,7 +157,7 @@ extension PeopleCollectionViewController {
         cell.name.text = person.name
         
         let path = peopleModel.getPersonImagePath(person: person)
-        cell.imageView.image = UIImage(contentsOfFile: path.path())
+        cell.imageView.image = getUIImageForPerson(named: path.path())
         
         cell.imageView.layer.borderColor = UIColor(white: 0, alpha: 0.3).cgColor
         cell.imageView.layer.borderWidth = 2
@@ -162,13 +182,13 @@ extension PeopleCollectionViewController: UIImagePickerControllerDelegate {
         
         guard let image = info[.editedImage] as? UIImage else { return }
         
-        let imageName: String
-        
-        if let editableCell = editableCell, let person = editableCell.person {
-            imageName = person.image
-        } else {
-            imageName = UUID().uuidString
-        }
+        let imageName: String = UUID().uuidString
+        editableCell?.person?.image = imageName
+//        if let editableCell = editableCell, let person = editableCell.person {
+//            imageName = person.image
+//        } else {
+//            imageName = UUID().uuidString
+//        }
         
         if let jpegData = image.jpegData(compressionQuality: 0.8) {
             peopleModel.savePersonImage(imageName: imageName, imageData: jpegData)
@@ -177,6 +197,8 @@ extension PeopleCollectionViewController: UIImagePickerControllerDelegate {
         if editableCell?.person == nil {
             let person = Person(name: "Unknown", image: imageName)
             peopleModel.people.append(person)
+        } else {
+            editableCell?.person?.image = imageName
         }
         
         collectionView.reloadData()

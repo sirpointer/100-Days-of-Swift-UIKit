@@ -77,7 +77,7 @@ final class PeopleModel {
             
             try? FileManager.default.createDirectory(at: self.getImagesDirectory(), withIntermediateDirectories: true)
             try? imageData.write(to: imagePath)
-            self.imageSavedPassthroughSubject.send(imageName)
+            self.imageSavedPassthroughSubject.send(imagePath.path())
         }
     }
     
