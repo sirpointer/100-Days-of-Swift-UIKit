@@ -15,10 +15,14 @@ class PeopleCollectionViewController: UICollectionViewController, UINavigationCo
     var peopleModelPeopleUpdatedPublisherCancellable: AnyCancellable?
     var peopleModelImageSavedPublisherCancellable: AnyCancellable?
     
+    private var plusBarButton: UIBarButtonItem!
     private var authenticateBarButton: UIBarButtonItem!
+    
     private var isUnlocked = false {
         didSet {
             DispatchQueue.main.async {
+                self.authenticateBarButton.image = UIImage(systemName: self.isUnlocked ? "lock.fill" : "lock.open.fill")
+                self.plusBarButton.isHidden = !self.isUnlocked
                 self.collectionView.reloadData()
             }
         }
@@ -35,7 +39,9 @@ class PeopleCollectionViewController: UICollectionViewController, UINavigationCo
         authenticateBarButton = UIBarButtonItem(image: UIImage(systemName: "lock.open.fill"), style: .plain, target: self, action: #selector(authenticate))
         navigationItem.rightBarButtonItem = authenticateBarButton
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addOrEditPerson))
+        plusBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addOrEditPerson))
+        plusBarButton.isHidden = true
+        navigationItem.leftBarButtonItem = plusBarButton
         
         NotificationCenter.default.addObserver(self, selector: #selector(willResignActiveAction), name: UIApplication.willResignActiveNotification, object: nil)
     }
@@ -99,6 +105,7 @@ class PeopleCollectionViewController: UICollectionViewController, UINavigationCo
     
     // Move to inactive
     @objc func willResignActiveAction() {
+        isUnlocked = false
         DispatchQueue.global().async { [weak self] in
             self?.peopleModel.savePeople()
             self?.peopleModel.removeUnusedImages()
