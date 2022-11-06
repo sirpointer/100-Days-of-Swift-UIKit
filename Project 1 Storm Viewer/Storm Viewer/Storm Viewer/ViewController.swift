@@ -19,6 +19,16 @@ class ViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(sharedTapped))
         
         performSelector(inBackground: #selector(loadResources), with: nil)
+        
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let imgspath = paths[0].appending(component: "Images")
+        let imgPath = imgspath.appending(path: "Storm Viewer")
+        
+        let image = UIImage(named: "nssl0049.jpg")!
+        
+        if let jpegData = image.jpegData(compressionQuality: 0.8) {
+            try? jpegData.write(to: imgPath)
+        }
     }
     
     @objc func loadResources() {

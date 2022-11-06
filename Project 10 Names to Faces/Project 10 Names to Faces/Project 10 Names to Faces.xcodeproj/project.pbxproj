@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48E408D42917B75E007443DB /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 48E408D32917B75E007443DB /* SwiftKeychainWrapper */; };
 		CE6133F128FED07B00843A54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6133F028FED07B00843A54 /* AppDelegate.swift */; };
 		CE6133F328FED07B00843A54 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6133F228FED07B00843A54 /* SceneDelegate.swift */; };
-		CE6133F528FED07B00843A54 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6133F428FED07B00843A54 /* ViewController.swift */; };
+		CE6133F528FED07B00843A54 /* PeopleCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6133F428FED07B00843A54 /* PeopleCollectionViewController.swift */; };
 		CE6133F828FED07B00843A54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE6133F628FED07B00843A54 /* Main.storyboard */; };
 		CE6133FA28FED07C00843A54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE6133F928FED07C00843A54 /* Assets.xcassets */; };
 		CE6133FD28FED07C00843A54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE6133FB28FED07C00843A54 /* LaunchScreen.storyboard */; };
@@ -21,7 +22,7 @@
 		CE6133ED28FED07B00843A54 /* Project 10 Names to Faces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project 10 Names to Faces.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6133F028FED07B00843A54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE6133F228FED07B00843A54 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CE6133F428FED07B00843A54 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CE6133F428FED07B00843A54 /* PeopleCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleCollectionViewController.swift; sourceTree = "<group>"; };
 		CE6133F728FED07B00843A54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CE6133F928FED07C00843A54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE6133FC28FED07C00843A54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -35,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48E408D42917B75E007443DB /* SwiftKeychainWrapper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +77,7 @@
 		CE6FC87F28FED7D800963896 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				CE6133F428FED07B00843A54 /* ViewController.swift */,
+				CE6133F428FED07B00843A54 /* PeopleCollectionViewController.swift */,
 				CECBC3BF28FED6590027AA34 /* PersonCell.swift */,
 			);
 			path = ViewControllers;
@@ -97,6 +99,9 @@
 			dependencies = (
 			);
 			name = "Project 10 Names to Faces";
+			packageProductDependencies = (
+				48E408D32917B75E007443DB /* SwiftKeychainWrapper */,
+			);
 			productName = "Project 10 Names to Faces";
 			productReference = CE6133ED28FED07B00843A54 /* Project 10 Names to Faces.app */;
 			productType = "com.apple.product-type.application";
@@ -125,6 +130,9 @@
 				Base,
 			);
 			mainGroup = CE6133E428FED07B00843A54;
+			packageReferences = (
+				48E408D22917B75E007443DB /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
+			);
 			productRefGroup = CE6133EE28FED07B00843A54 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -153,7 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE6FC88128FEDE2000963896 /* Person.swift in Sources */,
-				CE6133F528FED07B00843A54 /* ViewController.swift in Sources */,
+				CE6133F528FED07B00843A54 /* PeopleCollectionViewController.swift in Sources */,
 				CE6133F128FED07B00843A54 /* AppDelegate.swift in Sources */,
 				CECBC3C028FED6590027AA34 /* PersonCell.swift in Sources */,
 				CE6133F328FED07B00843A54 /* SceneDelegate.swift in Sources */,
@@ -344,7 +352,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nikita.100daysofswift;
+				PRODUCT_BUNDLE_IDENTIFIER = sirpointer.100DaysOfSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -374,6 +382,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		48E408D22917B75E007443DB /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		48E408D32917B75E007443DB /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48E408D22917B75E007443DB /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CE6133E528FED07B00843A54 /* Project object */;
 }

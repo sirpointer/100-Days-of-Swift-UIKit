@@ -7,7 +7,8 @@
 
 import UIKit
 
-class Person: NSObject {
+class Person: NSObject, Codable, Identifiable {
+    private(set) var id = UUID()
     var name: String
     var image: String
     

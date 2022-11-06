@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
-class ViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ImageViewTappedDelegateProtocol {
+class PeopleCollectionViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ImageViewTappedDelegateProtocol {
 
     var people = [Person]()
     
@@ -16,8 +17,51 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let loadedPeople = loadPeople() {
+            self.people = loadedPeople
+        }
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addOrEditPerson))
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(willResignActiveAction), name: UIApplication.willResignActiveNotification, object: nil)
     }
+    
+    
+    @objc func willResignActiveAction() {
+        DispatchQueue.global().async { [weak self] in
+            self?.savePeople()
+            self?.removeUnusedImages()
+        }
+    }
+    
+    func removeUnusedImages() {
+        let imagesDirectory = getImagesDirectory()
+        guard let allImages = try? FileManager.default.contentsOfDirectory(at: imagesDirectory, includingPropertiesForKeys: nil) else { return }
+        
+        for imageURL in allImages {
+            let imageName = imageURL.lastPathComponent
+            if !people.contains(where: { $0.image == imageName }) {
+                try? FileManager.default.removeItem(at: imageURL)
+            }
+        }
+    }
+    
+    func savePeople() {
+        guard !people.isEmpty else { return }
+        guard let peopleData = try? JSONEncoder().encode(people) else { return }
+        KeychainWrapper.standard.set(peopleData, forKey: "people")
+    }
+    
+    func loadPeople() -> [Person]? {
+        if let peopleData = KeychainWrapper.standard.data(forKey: "people"),
+           let people = try? JSONDecoder().decode([Person].self, from: peopleData) {
+            return people
+        } else {
+            print("Cannot load saved people.")
+            return nil
+        }
+    }
+    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         people.count
@@ -33,7 +77,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         cell.person = person
         cell.name.text = person.name
         
-        let path = getDocumentsDirectory().appending(path: person.image)
+        let path = getImagesDirectory().appending(path: person.image)
         cell.imageView.image = UIImage(contentsOfFile: path.path())
         
         cell.imageView.layer.borderColor = UIColor(white: 0, alpha: 0.3).cgColor
@@ -92,9 +136,9 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         picker.allowsEditing = true
         picker.delegate = self
         
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            picker.sourceType = .camera
-        }
+//        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+//            picker.sourceType = .camera
+//        }
         
         present(picker, animated: true)
     }
@@ -113,10 +157,11 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
             imageName = UUID().uuidString
         }
         
-        let imagePath: URL = getDocumentsDirectory().appending(path: imageName)
+        let imagePath: URL = getImagesDirectory().appending(path: imageName)
         
         if let jpegData = image.jpegData(compressionQuality: 0.8) {
-            try? jpegData.write(to: imagePath)
+            try! FileManager.default.createDirectory(at: getImagesDirectory(), withIntermediateDirectories: true)
+            try! jpegData.write(to: imagePath)
         }
         
         if editableCell?.person == nil {
@@ -134,9 +179,13 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         dismiss(animated: true)
     }
     
-    func getDocumentsDirectory() -> URL {
+    
+    private func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }
+    
+    private func getImagesDirectory() -> URL {
+        getDocumentsDirectory().appending(component: "Names-to-Faces").appending(component: "Images")
+    }
 }
-
