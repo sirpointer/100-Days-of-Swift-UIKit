@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4802B1D02917BFB8001E0177 /* PeopleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4802B1CF2917BFB8001E0177 /* PeopleModel.swift */; };
 		48E408D42917B75E007443DB /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 48E408D32917B75E007443DB /* SwiftKeychainWrapper */; };
 		CE6133F128FED07B00843A54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6133F028FED07B00843A54 /* AppDelegate.swift */; };
 		CE6133F328FED07B00843A54 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6133F228FED07B00843A54 /* SceneDelegate.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4802B1CF2917BFB8001E0177 /* PeopleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleModel.swift; sourceTree = "<group>"; };
 		CE6133ED28FED07B00843A54 /* Project 10 Names to Faces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project 10 Names to Faces.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6133F028FED07B00843A54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE6133F228FED07B00843A54 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +45,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4802B1CE2917BFA3001E0177 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CE6FC88028FEDE2000963896 /* Person.swift */,
+				4802B1CF2917BFB8001E0177 /* PeopleModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		CE6133E428FED07B00843A54 = {
 			isa = PBXGroup;
 			children = (
@@ -62,9 +73,9 @@
 		CE6133EF28FED07B00843A54 /* Project 10 Names to Faces */ = {
 			isa = PBXGroup;
 			children = (
+				4802B1CE2917BFA3001E0177 /* Models */,
 				CE6FC87F28FED7D800963896 /* ViewControllers */,
 				CE6133F028FED07B00843A54 /* AppDelegate.swift */,
-				CE6FC88028FEDE2000963896 /* Person.swift */,
 				CE6133F228FED07B00843A54 /* SceneDelegate.swift */,
 				CE6133F628FED07B00843A54 /* Main.storyboard */,
 				CE6133F928FED07C00843A54 /* Assets.xcassets */,
@@ -164,6 +175,7 @@
 				CE6133F528FED07B00843A54 /* PeopleCollectionViewController.swift in Sources */,
 				CE6133F128FED07B00843A54 /* AppDelegate.swift in Sources */,
 				CECBC3C028FED6590027AA34 /* PersonCell.swift in Sources */,
+				4802B1D02917BFB8001E0177 /* PeopleModel.swift in Sources */,
 				CE6133F328FED07B00843A54 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

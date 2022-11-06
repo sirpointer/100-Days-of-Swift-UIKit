@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Person: NSObject, Codable, Identifiable {
+final class Person: NSObject, Codable, Identifiable {
     private(set) var id = UUID()
     var name: String
     var image: String
@@ -16,4 +16,9 @@ class Person: NSObject, Codable, Identifiable {
         self.name = name
         self.image = image
     }
+}
+
+// Save load data
+extension Person {
+    
 }

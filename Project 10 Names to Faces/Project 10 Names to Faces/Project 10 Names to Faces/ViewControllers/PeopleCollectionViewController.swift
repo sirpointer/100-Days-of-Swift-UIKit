@@ -10,15 +10,15 @@ import SwiftKeychainWrapper
 
 class PeopleCollectionViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ImageViewTappedDelegateProtocol {
 
-    var people = [Person]()
+    let peopleModel = PeopleModel()
     
     private var editableCell: PersonCell?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let loadedPeople = loadPeople() {
-            self.people = loadedPeople
+        if let loadedPeople = peopleModel.loadPeople() {
+            peopleModel.people = loadedPeople
         }
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addOrEditPerson))
@@ -29,42 +29,14 @@ class PeopleCollectionViewController: UICollectionViewController, UIImagePickerC
     
     @objc func willResignActiveAction() {
         DispatchQueue.global().async { [weak self] in
-            self?.savePeople()
-            self?.removeUnusedImages()
-        }
-    }
-    
-    func removeUnusedImages() {
-        let imagesDirectory = getImagesDirectory()
-        guard let allImages = try? FileManager.default.contentsOfDirectory(at: imagesDirectory, includingPropertiesForKeys: nil) else { return }
-        
-        for imageURL in allImages {
-            let imageName = imageURL.lastPathComponent
-            if !people.contains(where: { $0.image == imageName }) {
-                try? FileManager.default.removeItem(at: imageURL)
-            }
-        }
-    }
-    
-    func savePeople() {
-        guard !people.isEmpty else { return }
-        guard let peopleData = try? JSONEncoder().encode(people) else { return }
-        KeychainWrapper.standard.set(peopleData, forKey: "people")
-    }
-    
-    func loadPeople() -> [Person]? {
-        if let peopleData = KeychainWrapper.standard.data(forKey: "people"),
-           let people = try? JSONDecoder().decode([Person].self, from: peopleData) {
-            return people
-        } else {
-            print("Cannot load saved people.")
-            return nil
+            self?.peopleModel.savePeople()
+            self?.peopleModel.removeUnusedImages()
         }
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        people.count
+        peopleModel.people.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -72,12 +44,12 @@ class PeopleCollectionViewController: UICollectionViewController, UIImagePickerC
             fatalError("Unable to deqeue PersonCell.")
         }
         
-        let person = people[indexPath.item]
+        let person = peopleModel.people[indexPath.item]
         
         cell.person = person
         cell.name.text = person.name
         
-        let path = getImagesDirectory().appending(path: person.image)
+        let path = peopleModel.getPersonImagePath(person: person)
         cell.imageView.image = UIImage(contentsOfFile: path.path())
         
         cell.imageView.layer.borderColor = UIColor(white: 0, alpha: 0.3).cgColor
@@ -99,7 +71,7 @@ class PeopleCollectionViewController: UICollectionViewController, UIImagePickerC
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let person = people[indexPath.item]
+        let person = peopleModel.people[indexPath.item]
         
         let ac = UIAlertController(title: "What do you want to do with \(person.name)?", message: nil, preferredStyle: .actionSheet)
         
@@ -107,7 +79,7 @@ class PeopleCollectionViewController: UICollectionViewController, UIImagePickerC
             self?.presentRenameAlert(person: person)
         }))
         ac.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
-            self?.people.removeAll(where: { $0 == person })
+            self?.peopleModel.people.removeAll(where: { $0 == person })
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.reloadData()
             }
@@ -157,16 +129,13 @@ class PeopleCollectionViewController: UICollectionViewController, UIImagePickerC
             imageName = UUID().uuidString
         }
         
-        let imagePath: URL = getImagesDirectory().appending(path: imageName)
-        
         if let jpegData = image.jpegData(compressionQuality: 0.8) {
-            try! FileManager.default.createDirectory(at: getImagesDirectory(), withIntermediateDirectories: true)
-            try! jpegData.write(to: imagePath)
+            peopleModel.savePersonImage(imageName: imageName, imageData: jpegData)
         }
         
         if editableCell?.person == nil {
             let person = Person(name: "Unknown", image: imageName)
-            people.append(person)
+            peopleModel.people.append(person)
         }
         
         collectionView.reloadData()
@@ -177,15 +146,5 @@ class PeopleCollectionViewController: UICollectionViewController, UIImagePickerC
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         editableCell = nil
         dismiss(animated: true)
-    }
-    
-    
-    private func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
-    
-    private func getImagesDirectory() -> URL {
-        getDocumentsDirectory().appending(component: "Names-to-Faces").appending(component: "Images")
     }
 }
