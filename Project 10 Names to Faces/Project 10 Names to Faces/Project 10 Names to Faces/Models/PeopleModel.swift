@@ -7,45 +7,78 @@
 
 import Foundation
 import SwiftKeychainWrapper
+import Combine
 
 
 final class PeopleModel {
-    var people = [Person]()
+    var people = [Person]() {
+        didSet {
+            peopleUpdatedPassthroughSubject.send(people)
+        }
+    }
     
-    func loadPeople() -> [Person]? {
-        if let peopleData = KeychainWrapper.standard.data(forKey: "people"),
-           let people = try? JSONDecoder().decode([Person].self, from: peopleData) {
-            return people
-        } else {
-            print("Cannot load saved people.")
-            return nil
+    private let peopleUpdatedPassthroughSubject = PassthroughSubject<[Person], Never>()
+    private let imageSavedPassthroughSubject = PassthroughSubject<String, Never>()
+    
+    var peopleUpdatedPublisher: AnyPublisher<[Person], Never> {
+        peopleUpdatedPassthroughSubject.eraseToAnyPublisher()
+    }
+    
+    var imageSavedPublisher: AnyPublisher<String, Never> {
+        imageSavedPassthroughSubject.eraseToAnyPublisher()
+    }
+    
+    
+    private let saveLoadImageQueue = DispatchQueue(label: "sirpointer.saveLoadImageQueue", qos: .background, attributes: .concurrent)
+    private let saveLoadPeopleQueue = DispatchQueue(label: "sirpointer.saveLoadPeopleQueue", qos: .background)
+    
+    
+    func loadPeople() {
+        saveLoadPeopleQueue.async { [weak self] in
+            if let peopleData = KeychainWrapper.standard.data(forKey: "people"),
+               let people = try? JSONDecoder().decode([Person].self, from: peopleData) {
+                DispatchQueue.main.async {
+                    self?.people = people
+                }
+            } else {
+                print("Cannot load saved people.")
+            }
         }
     }
     
     func savePeople() {
         guard !people.isEmpty else { return }
         guard let peopleData = try? JSONEncoder().encode(people) else { return }
-        KeychainWrapper.standard.set(peopleData, forKey: "people")
+        saveLoadPeopleQueue.async(flags: .barrier) {
+            KeychainWrapper.standard.set(peopleData, forKey: "people")
+        }
     }
     
     func removeUnusedImages() {
-        let imagesDirectory = getImagesDirectory()
-        guard let allImages = try? FileManager.default.contentsOfDirectory(at: imagesDirectory, includingPropertiesForKeys: nil) else { return }
-        
-        for imageURL in allImages {
-            let imageName = imageURL.lastPathComponent
-            if !people.contains(where: { $0.image == imageName }) {
-                try? FileManager.default.removeItem(at: imageURL)
+        saveLoadImageQueue.async(flags: .barrier) { [weak self] in
+            guard let self = self else { return }
+            let imagesDirectory = self.getImagesDirectory()
+            guard let allImages = try? FileManager.default.contentsOfDirectory(at: imagesDirectory, includingPropertiesForKeys: nil) else { return }
+            
+            for imageURL in allImages {
+                let imageName = imageURL.lastPathComponent
+                if !self.people.contains(where: { $0.image == imageName }) {
+                    try? FileManager.default.removeItem(at: imageURL)
+                }
             }
         }
     }
     
     
     func savePersonImage(imageName: String, imageData: Data) {
-        let imagePath: URL = getImagesDirectory().appending(path: imageName)
-        
-        try? FileManager.default.createDirectory(at: getImagesDirectory(), withIntermediateDirectories: true)
-        try? imageData.write(to: imagePath)
+        saveLoadImageQueue.async { [weak self] in
+            guard let self = self else { return }
+            let imagePath: URL = self.getImagesDirectory().appending(path: imageName)
+            
+            try? FileManager.default.createDirectory(at: self.getImagesDirectory(), withIntermediateDirectories: true)
+            try? imageData.write(to: imagePath)
+            self.imageSavedPassthroughSubject.send(imageName)
+        }
     }
     
     func getPersonImagePath(person: Person) -> URL {

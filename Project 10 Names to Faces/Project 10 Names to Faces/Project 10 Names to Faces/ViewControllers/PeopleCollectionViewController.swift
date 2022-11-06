@@ -6,20 +6,21 @@
 //
 
 import UIKit
-import SwiftKeychainWrapper
+import Combine
 
-class PeopleCollectionViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ImageViewTappedDelegateProtocol {
+class PeopleCollectionViewController: UICollectionViewController, UINavigationControllerDelegate, ImageViewTappedDelegateProtocol {
 
     let peopleModel = PeopleModel()
+    var peopleModelPeopleUpdatedPublisherCancellable: AnyCancellable?
+    var peopleModelImageSavedPublisherCancellable: AnyCancellable?
     
     private var editableCell: PersonCell?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let loadedPeople = peopleModel.loadPeople() {
-            peopleModel.people = loadedPeople
-        }
+        peopleModel.loadPeople()
+        setSubscriptions()
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addOrEditPerson))
         
@@ -27,6 +28,36 @@ class PeopleCollectionViewController: UICollectionViewController, UIImagePickerC
     }
     
     
+    // Add subscriptions on the model
+    private func setSubscriptions() {
+        self.peopleModelPeopleUpdatedPublisherCancellable = peopleModel.peopleUpdatedPublisher.sink(receiveValue: peopleUpdated(_:))
+        self.peopleModelImageSavedPublisherCancellable = peopleModel.imageSavedPublisher.sink(receiveValue: { [weak self] value in
+            DispatchQueue.main.async {
+                self?.imageSaved(value)
+            }
+        })
+    }
+    
+    // People in the model was updated
+    private func peopleUpdated(_ newPeople: [Person]) {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
+    }
+    
+    // Image for a person was saved
+    private func imageSaved(_ imageName: String) {
+        for i in 0..<peopleModel.people.count {
+            if let personCell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "Person", for: IndexPath(item: i, section: 0)) as? PersonCell {
+                if personCell.person?.image == imageName {
+                    personCell.imageView.image = UIImage(named: imageName)
+                }
+            }
+        }
+    }
+    
+    
+    // Move to inactive
     @objc func willResignActiveAction() {
         DispatchQueue.global().async { [weak self] in
             self?.peopleModel.savePeople()
@@ -35,41 +66,13 @@ class PeopleCollectionViewController: UICollectionViewController, UIImagePickerC
     }
     
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        peopleModel.people.count
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Person", for: indexPath) as? PersonCell else {
-            fatalError("Unable to deqeue PersonCell.")
-        }
-        
-        let person = peopleModel.people[indexPath.item]
-        
-        cell.person = person
-        cell.name.text = person.name
-        
-        let path = peopleModel.getPersonImagePath(person: person)
-        cell.imageView.image = UIImage(contentsOfFile: path.path())
-        
-        cell.imageView.layer.borderColor = UIColor(white: 0, alpha: 0.3).cgColor
-        cell.imageView.layer.borderWidth = 2
-        cell.imageView.layer.cornerRadius = 3
-        cell.layer.cornerRadius = 7
-        
-        cell.imageViewTappedDelegate = self
-        cell.gestureRecognizers = []
-        let imageTappedGesture = UITapGestureRecognizer(target: cell, action: #selector(cell.imageViewTapped))
-        cell.imageView.addGestureRecognizer(imageTappedGesture)
-        
-        return cell
-    }
-    
+    // An image in the cell was tapped
     @objc func didImageViewTappedCell(cell: PersonCell) {
         editableCell = cell
         addOrEditPerson()
     }
     
+    // A cell was tapped
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let person = peopleModel.people[indexPath.item]
         
@@ -114,7 +117,45 @@ class PeopleCollectionViewController: UICollectionViewController, UIImagePickerC
         
         present(picker, animated: true)
     }
+}
+
+
+// Configure cells
+extension PeopleCollectionViewController {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        peopleModel.people.count
+    }
     
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Person", for: indexPath) as? PersonCell else {
+            fatalError("Unable to deqeue PersonCell.")
+        }
+        
+        let person = peopleModel.people[indexPath.item]
+        
+        cell.person = person
+        cell.name.text = person.name
+        
+        let path = peopleModel.getPersonImagePath(person: person)
+        cell.imageView.image = UIImage(contentsOfFile: path.path())
+        
+        cell.imageView.layer.borderColor = UIColor(white: 0, alpha: 0.3).cgColor
+        cell.imageView.layer.borderWidth = 2
+        cell.imageView.layer.cornerRadius = 3
+        cell.layer.cornerRadius = 7
+        
+        cell.imageViewTappedDelegate = self
+        cell.gestureRecognizers = []
+        let imageTappedGesture = UITapGestureRecognizer(target: cell, action: #selector(cell.imageViewTapped))
+        cell.imageView.addGestureRecognizer(imageTappedGesture)
+        
+        return cell
+    }
+}
+
+
+// MARK: Image picker
+extension PeopleCollectionViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let editableCell = editableCell
         self.editableCell = nil
