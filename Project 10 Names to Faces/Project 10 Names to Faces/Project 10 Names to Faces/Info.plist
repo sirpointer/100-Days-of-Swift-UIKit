@@ -21,5 +21,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>We want to keep your data confidential</string>
 </dict>
 </plist>

@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import LocalAuthentication
 
 class PeopleCollectionViewController: UICollectionViewController, UINavigationControllerDelegate, ImageViewTappedDelegateProtocol {
 
@@ -14,7 +15,8 @@ class PeopleCollectionViewController: UICollectionViewController, UINavigationCo
     var peopleModelPeopleUpdatedPublisherCancellable: AnyCancellable?
     var peopleModelImageSavedPublisherCancellable: AnyCancellable?
     
-    private var isUnlocked = true {
+    private var authenticateBarButton: UIBarButtonItem!
+    private var isUnlocked = false {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -29,6 +31,9 @@ class PeopleCollectionViewController: UICollectionViewController, UINavigationCo
         
         peopleModel.loadPeople()
         setSubscriptions()
+        
+        authenticateBarButton = UIBarButtonItem(image: UIImage(systemName: "lock.open.fill"), style: .plain, target: self, action: #selector(authenticate))
+        navigationItem.rightBarButtonItem = authenticateBarButton
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addOrEditPerson))
         
@@ -63,6 +68,32 @@ class PeopleCollectionViewController: UICollectionViewController, UINavigationCo
                 personCell.imageView.image = getUIImageForPerson(named: imagePath)
             }
         }
+    }
+    
+    
+    @objc func authenticate() {
+        guard !isUnlocked else {
+            isUnlocked.toggle()
+            return
+        }
+        
+        let context = LAContext()
+        var error: NSError?
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Identify yourself!", reply: { [weak self] success, error in
+                if success {
+                    self?.isUnlocked.toggle()
+                } else {
+                    self?.showCannotUnlockAlert()
+                }
+            })
+        }
+    }
+    
+    private func showCannotUnlockAlert() {
+        let ac = UIAlertController(title: "Authentication failed", message: "You could not be verified; Please try again.", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Ok", style: .default))
+        present(ac, animated: true)
     }
     
     
