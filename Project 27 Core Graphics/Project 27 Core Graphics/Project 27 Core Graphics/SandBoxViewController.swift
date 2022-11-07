@@ -35,7 +35,21 @@ class SandBoxViewController: UIViewController {
     }
     
     func drawRectangle() {
+        let side = 512
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: side, height: side))
         
+        let image = renderer.image { context in
+            let rectangle = CGRect(x: 0, y: 0, width: side, height: side)
+            
+            context.cgContext.setFillColor(UIColor.red.cgColor)
+            context.cgContext.setStrokeColor(UIColor.black.cgColor)
+            context.cgContext.setLineWidth(10)
+            
+            context.cgContext.addRect(rectangle)
+            context.cgContext.drawPath(using: .fillStroke)
+        }
+        
+        imageView.image = image
     }
 }
 
