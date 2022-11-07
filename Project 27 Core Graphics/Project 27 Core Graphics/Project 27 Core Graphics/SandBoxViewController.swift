@@ -33,6 +33,10 @@ class SandBoxViewController: UIViewController {
             drawCircle()
         case 2:
             drawCheckerboard()
+        case 3:
+            drawRotatedSquares()
+        case 4:
+            drawLines()
         default:
             break
         }
@@ -88,6 +92,58 @@ class SandBoxViewController: UIViewController {
                     }
                 }
             }
+        }
+        
+        imageView.image = image
+    }
+    
+    func drawRotatedSquares() {
+        let side = 512
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: side, height: side))
+        
+        let image = renderer.image { context in
+            context.cgContext.translateBy(x: 256, y: 256)
+            
+            let rotations = 16
+            let amount = Double.pi / Double(rotations)
+            
+            for _ in 0..<rotations {
+                context.cgContext.rotate(by: CGFloat(amount))
+                context.cgContext.addRect(CGRect(x: -128, y: -128, width: 256, height: 256))
+            }
+            
+            context.cgContext.setStrokeColor(UIColor.black.cgColor)
+            context.cgContext.strokePath()
+        }
+        
+        imageView.image = image
+    }
+    
+    func drawLines() {
+        let side = 512
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: side, height: side))
+        
+        let image = renderer.image { context in
+            context.cgContext.translateBy(x: 256, y: 256)
+            
+            var first = true
+            var length = CGFloat(256)
+            
+            for _ in 0 ..< 256 {
+                context.cgContext.rotate(by: .pi / 2)
+                
+                if first {
+                    context.cgContext.move(to: CGPoint(x: length, y: 50))
+                    first = false
+                } else {
+                    context.cgContext.addLine(to: CGPoint(x: length, y: 50))
+                }
+                
+                length *= 0.99
+            }
+            
+            context.cgContext.setStrokeColor(UIColor.black.cgColor)
+            context.cgContext.strokePath()
         }
         
         imageView.image = image
