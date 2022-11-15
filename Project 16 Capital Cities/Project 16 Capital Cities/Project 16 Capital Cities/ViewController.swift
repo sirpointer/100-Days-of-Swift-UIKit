@@ -73,15 +73,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         if let placeName = placeName,
            let url = URL(string: "https://en.wikipedia.org/wiki/\(placeName)") {
-            let web = WKWebView()
-            let request = URLRequest(url: url)
-            web.load(request)
-            
             let webView = WikiCapitalWebViewController()
             webView.url = url
             present(webView, animated: true)
-            
-           // present(web, animated: true)
         } else {
             let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Ok", style: .default))
