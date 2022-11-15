@@ -49,19 +49,19 @@ class PeopleCollectionViewController: UICollectionViewController, UINavigationCo
     
     // Add subscriptions on the model
     private func setSubscriptions() {
-        self.peopleModelPeopleUpdatedPublisherCancellable = peopleModel.peopleUpdatedPublisher.sink(receiveValue: peopleUpdated(_:))
-        self.peopleModelImageSavedPublisherCancellable = peopleModel.imageSavedPublisher.sink(receiveValue: { [weak self] value in
-            DispatchQueue.main.async {
+        self.peopleModelPeopleUpdatedPublisherCancellable = peopleModel.peopleUpdatedPublisher
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: peopleUpdated(_:))
+        self.peopleModelImageSavedPublisherCancellable = peopleModel.imageSavedPublisher
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] value in
                 self?.imageSaved(value)
-            }
         })
     }
     
     // People in the model was updated
     private func peopleUpdated(_ newPeople: [Person]) {
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadData()
-        }
+        collectionView.reloadData()
     }
     
     // Image for a person was saved
