@@ -39,8 +39,8 @@ class DetailViewController: UIViewController {
     }
     
     @objc func sharedTapped() {
-        guard let image = imageView.image?.jpegData(compressionQuality: 1),
-              let selectedImage = selectedImage else {
+        guard let selectedImage = selectedImage,
+              let image = getImageForSharing()?.jpegData(compressionQuality: 0.8) else {
             print("No image found")
             return
         }
@@ -54,6 +54,43 @@ class DetailViewController: UIViewController {
         }
         
         present(vc, animated: true)
+    }
+    
+    func getImageForSharing() -> UIImage? {
+        guard let image = imageView.image else { return nil }
+        
+        let size = image.size
+        let renderer = UIGraphicsImageRenderer(size: size)
+        let renderedImage = renderer.image { ctx in
+            image.draw(at: .zero)
+            
+            let waterMarkString = "Storm Viewer\ngithub.com/sirpointer/100-Days-of-Swift-UIKit"
+            
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .center
+            
+            let font = UIFont.systemFont(ofSize: size.height * 0.05)
+            let fontHeight = font.lineHeight
+            let lineSpacing = paragraphStyle.lineSpacing
+            
+            let stringShadow = NSShadow()
+            stringShadow.shadowColor = UIColor.darkGray
+            stringShadow.shadowBlurRadius = 2
+            
+            let attrs: [NSAttributedString.Key: Any] = [
+                .font: font,
+                .paragraphStyle: paragraphStyle,
+                .foregroundColor: UIColor(red: 1, green: 1, blue: 1, alpha: 0.7),
+                .shadow: stringShadow,
+            ]
+            
+            let y = size.height - fontHeight * 2.0 - lineSpacing - size.height * 0.01
+            
+            let attrString = NSAttributedString(string: waterMarkString, attributes: attrs)
+            attrString.draw(in: CGRect(origin: CGPoint(x: 0, y: y), size: size))
+        }
+        
+        return renderedImage
     }
     
 
