@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48ED6BB02926B2B6001409F9 /* BuildingNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ED6BAF2926B2B6001409F9 /* BuildingNode.swift */; };
 		48F83A5E2926A605003CA7E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F83A5D2926A605003CA7E9 /* AppDelegate.swift */; };
 		48F83A602926A605003CA7E9 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 48F83A5F2926A605003CA7E9 /* GameScene.sks */; };
 		48F83A642926A605003CA7E9 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F83A632926A605003CA7E9 /* GameScene.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		48ED6BAF2926B2B6001409F9 /* BuildingNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingNode.swift; sourceTree = "<group>"; };
 		48F83A5A2926A605003CA7E9 /* Project 29  Exploding Monkeys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project 29  Exploding Monkeys.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		48F83A5D2926A605003CA7E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48F83A5F2926A605003CA7E9 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				48F83A5D2926A605003CA7E9 /* AppDelegate.swift */,
 				48F83A5F2926A605003CA7E9 /* GameScene.sks */,
 				48F83A632926A605003CA7E9 /* GameScene.swift */,
+				48ED6BAF2926B2B6001409F9 /* BuildingNode.swift */,
 				48F83A652926A605003CA7E9 /* GameViewController.swift */,
 				48F83A672926A605003CA7E9 /* Main.storyboard */,
 				48F83A6A2926A606003CA7E9 /* Assets.xcassets */,
@@ -141,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				48F83A642926A605003CA7E9 /* GameScene.swift in Sources */,
+				48ED6BB02926B2B6001409F9 /* BuildingNode.swift in Sources */,
 				48F83A662926A605003CA7E9 /* GameViewController.swift in Sources */,
 				48F83A5E2926A605003CA7E9 /* AppDelegate.swift in Sources */,
 			);
