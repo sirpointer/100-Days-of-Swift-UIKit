@@ -12,6 +12,9 @@ class GameScene: SKScene {
     var gameTimer: Timer?
     var fireworks = [SKNode]()
     var scoreLabel: SKLabelNode!
+    var theEndLabel: SKLabelNode!
+    
+    var timerFiredCount = 0
     
     let leftEdge = -22
     let bottomEdge = -22
@@ -36,7 +39,16 @@ class GameScene: SKScene {
         scoreLabel.verticalAlignmentMode = .top
         scoreLabel.position = CGPoint(x: 1000, y: 760)
         scoreLabel.text = "Test asf"
+        scoreLabel.zPosition = 90
         addChild(scoreLabel)
+        
+        theEndLabel = SKLabelNode(fontNamed: "Chalkduster")
+        theEndLabel.position = CGPoint(x: 512, y: 384)
+        theEndLabel.text = "The end!"
+        theEndLabel.alpha = 0.0
+        theEndLabel.zPosition = 100
+        theEndLabel.fontSize = 100
+        addChild(theEndLabel)
         
         score = 0
         
@@ -77,6 +89,13 @@ class GameScene: SKScene {
     
     
     @objc func launchFireworks() {
+        timerFiredCount += 1
+        
+        guard timerFiredCount < 10 else {
+            theEndGame()
+            return
+        }
+        
         let movementAmount: CGFloat = 1800.0
         
         switch Int.random(in: 0...3) {
@@ -110,6 +129,13 @@ class GameScene: SKScene {
                 createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge)
             default: break
         }
+    }
+    
+    func theEndGame() {
+        gameTimer?.invalidate()
+        
+        let fade = SKAction.fadeIn(withDuration: 1)
+        theEndLabel.run(fade)
     }
     
     func checkTouches(_ touches: Set<UITouch>) {
