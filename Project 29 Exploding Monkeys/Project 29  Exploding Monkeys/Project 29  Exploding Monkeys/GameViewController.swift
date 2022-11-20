@@ -11,6 +11,7 @@ import GameplayKit
 
 class GameViewController: UIViewController, ObservableObject {
     
+    @IBOutlet var scoreLabel: UILabel!
     @IBOutlet var playerNumber: UILabel!
     @IBOutlet var launchButton: UIButton!
     @IBOutlet var velocityLabel: UILabel!
