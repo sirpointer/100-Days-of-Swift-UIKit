@@ -20,6 +20,28 @@ class GameViewController: UIViewController, ObservableObject {
     @IBOutlet var angleSlider: UISlider!
     
     var currentGame: GameScene?
+    
+    private(set) var player1Score = 0
+    private(set) var player2Score = 0
+    
+    
+    /// Add 1 score to player.
+    /// - Returns: Game is ended.
+    func addScore(to playerNumber: Int) -> Bool {
+        if playerNumber == 1 {
+            player1Score += 1
+        } else {
+            player2Score += 1
+        }
+        
+        updateScoreLabel()
+        
+        return player2Score >= 3 || player1Score >= 3
+    }
+    
+    func updateScoreLabel() {
+        scoreLabel.text = "Score \(player1Score):\(player2Score)"
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +65,9 @@ class GameViewController: UIViewController, ObservableObject {
             view.showsNodeCount = true
         }
         
+        player1Score = 0
+        player2Score = 0
+        updateScoreLabel()
         angleChanged(angleSlider)
         velocityChanged(velocitySlider)
     }

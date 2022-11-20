@@ -20,6 +20,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player2: SKSpriteNode!
     var banana: SKSpriteNode!
     
+    var endGameLabel: SKLabelNode!
+    
     var bananaLaunchTime: Date?
     
     var currentPlayer = 1
@@ -30,7 +32,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = UIColor(hue: 0.669, saturation: 0.99, brightness: 0.67, alpha: 1)
         createBuildings()
         createPlayers()
+        createEndgameLabel()
         physicsWorld.contactDelegate = self
+    }
+    
+    func createEndgameLabel() {
+        endGameLabel = SKLabelNode(fontNamed: "Chalkduster")
+        endGameLabel.fontSize = frame.height * 0.13
+        endGameLabel.zPosition = 100
+        endGameLabel.text = "End game"
+        endGameLabel.alpha = 0.0
+        endGameLabel.fontColor = .black
+        endGameLabel.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
+        endGameLabel.horizontalAlignmentMode = .center
+        endGameLabel.verticalAlignmentMode = .center
+        addChild(endGameLabel)
     }
     
     func createBuildings() {
@@ -172,12 +188,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             newGame.viewController = self.viewController
             self.viewController?.currentGame = newGame
             
+            let gameIsEnded: Bool
+            if player.name == "player1" {
+                gameIsEnded = self.viewController?.addScore(to: 2) ?? false
+            } else {
+                gameIsEnded = self.viewController?.addScore(to: 1) ?? false
+            }
+            
             self.changePlayer()
             newGame.currentPlayer = self.currentPlayer
             
-            let transition = SKTransition.doorway(withDuration: 1.5)
-            self.view?.presentScene(newGame, transition: transition)
+            if gameIsEnded {
+                self.endGame()
+            } else {
+                let transition = SKTransition.doorway(withDuration: 1.5)
+                self.view?.presentScene(newGame, transition: transition)
+            }
         }
+    }
+    
+    func endGame() {
+        let player1Score = viewController?.player1Score ?? 0
+        let player2Score = viewController?.player2Score ?? 0
+        let winner = player1Score > player2Score ? 1 : 2
+        
+        endGameLabel.text = "Player \(winner) win!"
+        
+        let fadeAlphaAction = SKAction.fadeAlpha(to: 1.0, duration: 1.5)
+        endGameLabel.run(fadeAlphaAction)
     }
     
     func changePlayer() {
