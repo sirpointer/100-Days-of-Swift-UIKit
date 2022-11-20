@@ -72,6 +72,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wind: -20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaO-5q-Pr1">
+                                <rect key="frame" x="82" y="102.5" width="100" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="Eox-DV-DZI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;&lt;&lt; PLAYER ONE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3HB-2y-Wzf">
                                 <rect key="frame" x="514.5" y="103" width="200" height="20.5"/>
                                 <constraints>
@@ -90,14 +99,17 @@
                             <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="HGl-en-CcY" secondAttribute="trailing" priority="10" constant="170" id="5bZ-5p-VkZ"/>
                             <constraint firstItem="4qk-I5-YsI" firstAttribute="top" secondItem="HbQ-OX-epd" secondAttribute="top" constant="-20" id="5ib-5I-YlO"/>
                             <constraint firstItem="HbQ-OX-epd" firstAttribute="leading" secondItem="4qk-I5-YsI" secondAttribute="leading" constant="20" id="AoN-wX-a40"/>
+                            <constraint firstItem="3HB-2y-Wzf" firstAttribute="leading" relation="lessThanOrEqual" secondItem="CaO-5q-Pr1" secondAttribute="trailing" priority="100" constant="332.5" id="DBo-JX-XQl"/>
                             <constraint firstItem="qw4-Gp-KMb" firstAttribute="centerY" secondItem="3HB-2y-Wzf" secondAttribute="centerY" priority="1" id="J5P-6Y-bf0"/>
                             <constraint firstItem="HGl-en-CcY" firstAttribute="centerY" secondItem="gU0-Xb-bav" secondAttribute="centerY" id="LUL-jQ-XfK"/>
                             <constraint firstItem="NcB-Wb-nIe" firstAttribute="centerY" secondItem="HbQ-OX-epd" secondAttribute="centerY" id="S1M-8I-GBm"/>
                             <constraint firstItem="qw4-Gp-KMb" firstAttribute="leading" secondItem="3HB-2y-Wzf" secondAttribute="trailing" constant="40" id="Um1-Oc-pzg"/>
                             <constraint firstItem="S7N-AM-BuI" firstAttribute="width" secondItem="HbQ-OX-epd" secondAttribute="width" id="ZlJ-5l-5H0"/>
                             <constraint firstItem="NcB-Wb-nIe" firstAttribute="leading" secondItem="HbQ-OX-epd" secondAttribute="trailing" constant="5" id="b8t-Fn-ayz"/>
+                            <constraint firstItem="CaO-5q-Pr1" firstAttribute="leading" secondItem="4qk-I5-YsI" secondAttribute="leading" constant="82" id="bWP-HN-gwD"/>
                             <constraint firstItem="S7N-AM-BuI" firstAttribute="leading" secondItem="NcB-Wb-nIe" secondAttribute="trailing" constant="35" id="cjg-P8-8ZK"/>
                             <constraint firstItem="3HB-2y-Wzf" firstAttribute="centerX" secondItem="4qk-I5-YsI" secondAttribute="centerX" multiplier="0.9" id="g9b-pV-zqY"/>
+                            <constraint firstItem="CaO-5q-Pr1" firstAttribute="centerY" secondItem="3HB-2y-Wzf" secondAttribute="centerY" id="h5R-6O-ACt"/>
                             <constraint firstItem="gU0-Xb-bav" firstAttribute="leading" secondItem="S7N-AM-BuI" secondAttribute="trailing" constant="5" id="m7M-We-ZIO"/>
                             <constraint firstItem="gU0-Xb-bav" firstAttribute="centerY" secondItem="S7N-AM-BuI" secondAttribute="centerY" id="mcK-4H-ukB"/>
                             <constraint firstItem="HGl-en-CcY" firstAttribute="leading" secondItem="gU0-Xb-bav" secondAttribute="trailing" constant="5" id="oJW-Wd-4OQ"/>
@@ -112,6 +124,7 @@
                         <outlet property="scoreLabel" destination="qw4-Gp-KMb" id="CyB-AY-PQG"/>
                         <outlet property="velocityLabel" destination="gU0-Xb-bav" id="XKI-3r-fY6"/>
                         <outlet property="velocitySlider" destination="S7N-AM-BuI" id="F4y-OA-7VF"/>
+                        <outlet property="windLabel" destination="CaO-5q-Pr1" id="h0P-r9-MLI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>

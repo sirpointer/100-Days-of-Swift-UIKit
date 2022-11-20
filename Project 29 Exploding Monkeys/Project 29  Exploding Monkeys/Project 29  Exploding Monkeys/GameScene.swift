@@ -34,6 +34,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createPlayers()
         createEndgameLabel()
         physicsWorld.contactDelegate = self
+        
+        let windValue = CGFloat.random(in: -2...2)
+        viewController?.updateWindLabel(Int(windValue * 10))
+        physicsWorld.gravity = CGVector(dx: windValue, dy: -9.8)
     }
     
     func createEndgameLabel() {

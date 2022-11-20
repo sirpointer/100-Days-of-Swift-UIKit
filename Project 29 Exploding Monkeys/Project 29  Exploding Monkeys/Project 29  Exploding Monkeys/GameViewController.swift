@@ -11,6 +11,7 @@ import GameplayKit
 
 class GameViewController: UIViewController, ObservableObject {
     
+    @IBOutlet var windLabel: UILabel!
     @IBOutlet var scoreLabel: UILabel!
     @IBOutlet var playerNumber: UILabel!
     @IBOutlet var launchButton: UIButton!
@@ -24,6 +25,10 @@ class GameViewController: UIViewController, ObservableObject {
     private(set) var player1Score = 0
     private(set) var player2Score = 0
     
+    
+    func updateWindLabel(_ newValue: Int) {
+        windLabel.text = "Wind: \(newValue)"
+    }
     
     /// Add 1 score to player.
     /// - Returns: Game is ended.
